@@ -1,0 +1,10 @@
+{
+  "description": "Create responsive, mobile-friendly online wedding invitations with customizable layouts and placeholder images for a simple, elegant design.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
