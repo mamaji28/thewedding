@@ -574,15 +574,15 @@ function RsvpAndWishesSection() {
           <div className="grid grid-cols-3 gap-4 mb-10">
             <div className="flex flex-col items-center justify-center p-4 rounded-xl" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(22, 163, 74, 0.3)' }}>
               <span className="font-display text-2xl" style={{ color: '#faf7f2' }}>{hadirCount}</span>
-              <span className="font-accent text-[10px] tracking-widest mt-1" style={{ color: '#16a34a' }}>HADIR</span>
+              <span className="font-accent text-[10px] tracking-widest mt-1 text-center" style={{ color: '#16a34a' }}>HADIR</span>
             </div>
             <div className="flex flex-col items-center justify-center p-4 rounded-xl" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(220, 38, 38, 0.3)' }}>
               <span className="font-display text-2xl" style={{ color: '#faf7f2' }}>{tidakHadirCount}</span>
-              <span className="font-accent text-[10px] tracking-widest mt-1" style={{ color: '#dc2626' }}>TIDAK HADIR</span>
+              <span className="font-accent text-[10px] tracking-widest mt-1 text-center" style={{ color: '#dc2626' }}>TIDAK HADIR</span>
             </div>
             <div className="flex flex-col items-center justify-center p-4 rounded-xl" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(202, 138, 4, 0.3)' }}>
               <span className="font-display text-2xl" style={{ color: '#faf7f2' }}>{raguCount}</span>
-              <span className="font-accent text-[10px] tracking-widest mt-1" style={{ color: '#ca8a04' }}>MASIH RAGU</span>
+              <span className="font-accent text-[10px] tracking-widest mt-1 text-center" style={{ color: '#ca8a04' }}>MASIH RAGU</span>
             </div>
           </div>
         </Reveal>
