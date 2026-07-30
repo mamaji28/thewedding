@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { ref, push, onValue, serverTimestamp } from 'firebase/database';
 import { db } from './firebase';
+import { weddingData } from './config';
 
 
 // ── Countdown hook ──────────────────────────────────────────────────────────
@@ -109,71 +110,54 @@ function SectionHeading({ sub, title, light = false }: { sub: string; title: str
 
 // 1. Cover / Hero
 function CoverSection({ onOpen }: { onOpen: () => void }) {
+  // Ambil nama tamu dari URL (contoh: ?to=Ilham)
+  const searchParams = new URLSearchParams(window.location.search);
+  const guestName = searchParams.get('to') || 'Tamu Undangan';
+
   return (
     <section
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
-      style={{ background: 'linear-gradient(170deg, #fdf9f4 0%, #f5ede0 60%, #ede0d0 100%)' }}
+      className="relative min-h-screen flex flex-col justify-between overflow-hidden"
+      style={{ 
+        backgroundImage: `url('${weddingData.galeri.coverImage}')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      }}
     >
-      {/* Decorative corner florals (SVG placeholder shapes) */}
-      <div className="absolute top-0 left-0 w-40 h-40 opacity-20" style={{ pointerEvents: 'none' }}>
-        <svg viewBox="0 0 160 160" fill="none" className="w-full h-full">
-          <circle cx="20" cy="20" r="60" stroke="#c4a35a" strokeWidth="0.8" />
-          <circle cx="20" cy="20" r="40" stroke="#c9a0a0" strokeWidth="0.6" />
-          <circle cx="20" cy="20" r="20" stroke="#c4a35a" strokeWidth="0.5" />
-        </svg>
-      </div>
-      <div className="absolute bottom-0 right-0 w-40 h-40 opacity-20" style={{ pointerEvents: 'none' }}>
-        <svg viewBox="0 0 160 160" fill="none" className="w-full h-full">
-          <circle cx="140" cy="140" r="60" stroke="#c4a35a" strokeWidth="0.8" />
-          <circle cx="140" cy="140" r="40" stroke="#c9a0a0" strokeWidth="0.6" />
-          <circle cx="140" cy="140" r="20" stroke="#c4a35a" strokeWidth="0.5" />
-        </svg>
-      </div>
+      {/* Dark overlay agar teks putih terbaca dengan jelas */}
+      <div className="absolute inset-0 bg-black/60" style={{ pointerEvents: 'none' }} />
 
-      <div className="relative z-10 text-center px-6 max-w-sm mx-auto">
-        {/* Badge */}
+      {/* Bagian Atas */}
+      <div className="relative z-10 text-center pt-16 px-6">
         <div className="animate-fade-up delay-100">
-          <p className="font-accent text-xs tracking-[0.3em] uppercase mb-8" style={{ color: '#c4a35a' }}>
+          <p className="font-accent text-xs tracking-[0.4em] uppercase" style={{ color: '#faf7f2' }}>
             Undangan Pernikahan
           </p>
         </div>
+      </div>
 
-        {/* Couple names */}
-        <div className="animate-fade-up delay-200">
-          <h1 className="font-display text-5xl md:text-6xl italic leading-tight mb-1" style={{ color: '#2d2420' }}>
-            Arif
-          </h1>
-          <p className="font-accent text-2xl tracking-widest" style={{ color: '#c4a35a' }}>&amp;</p>
-          <h1 className="font-display text-5xl md:text-6xl italic leading-tight mt-1" style={{ color: '#2d2420' }}>
-            Indri
+      {/* Bagian Bawah */}
+      <div className="relative z-10 text-center pb-24 px-6 mt-auto">
+        
+        <div className="animate-fade-up delay-200 mb-6">
+          <p className="font-accent text-sm tracking-[0.3em] uppercase mb-2" style={{ color: '#c4a35a' }}>
+            The Wedding
+          </p>
+          <h1 className="font-display text-4xl md:text-5xl italic leading-tight" style={{ color: '#faf7f2' }}>
+            {weddingData.pria.namaPanggilan} &amp; {weddingData.wanita.namaPanggilan}
           </h1>
         </div>
 
-        <Ornament />
-
-        {/* Date */}
-        <div className="animate-fade-up delay-300">
-          <p className="font-body text-sm tracking-widest uppercase" style={{ color: '#6b4f3a' }}>
-            Sabtu, 14 Desember 2024
+        <div className="animate-fade-up delay-300 mb-8">
+          <p className="font-body text-xs tracking-widest uppercase mb-1" style={{ color: 'rgba(250,247,242,0.6)' }}>
+            Kepada Yth,
+          </p>
+          <p className="font-display text-xl" style={{ color: '#faf7f2' }}>
+            {guestName}
           </p>
         </div>
 
-        {/* Photo frame */}
-        <div className="animate-fade-up delay-400 my-8">
-          <div className="relative mx-auto" style={{ width: 180, height: 220 }}>
-            <div
-              className="absolute inset-0 rounded-full"
-              style={{ border: '1px solid #c4a35a', opacity: 0.4, transform: 'translate(8px,8px)' }}
-            />
-            <PhotoBox
-              className="w-full h-full rounded-full"
-              label="Foto Bersama"
-            />
-          </div>
-        </div>
-
         {/* CTA */}
-        <div className="animate-fade-up delay-500">
+        <div className="animate-fade-up delay-400">
           <button
             onClick={onOpen}
             className="inline-flex items-center gap-3 px-8 py-3 rounded-full font-body text-sm tracking-widest uppercase transition-all duration-300"
@@ -187,14 +171,6 @@ function CoverSection({ onOpen }: { onOpen: () => void }) {
           >
             Buka Undangan
           </button>
-        </div>
-
-        {/* Scroll hint */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-pulse-soft">
-          <svg width="20" height="30" viewBox="0 0 20 30" fill="none">
-            <rect x="1" y="1" width="18" height="28" rx="9" stroke="#c4a35a" strokeWidth="1.5" opacity="0.5" />
-            <circle cx="10" cy="8" r="2.5" fill="#c4a35a" opacity="0.7" />
-          </svg>
         </div>
       </div>
     </section>
@@ -226,7 +202,7 @@ function CoupleSection() {
     <section className="py-20 px-6" style={{ background: 'linear-gradient(180deg, #faf7f2 0%, #f5ede0 100%)' }}>
       <div className="max-w-2xl mx-auto">
         <Reveal>
-          <SectionHeading sub="Mempelai" title="Yang Berbahagia" />
+          <SectionHeading sub="Kedua Mempelai" title="Yang Berbahagia" />
         </Reveal>
 
         <div className="flex flex-col gap-12">
@@ -241,8 +217,8 @@ function CoupleSection() {
                 <PhotoBox className="w-36 h-36 rounded-full relative z-10" label="Foto Pria" />
               </div>
               <p className="font-accent text-xs tracking-[0.25em] uppercase mb-1" style={{ color: '#c4a35a' }}>Mempelai Pria</p>
-              <h3 className="font-display text-2xl italic mb-1" style={{ color: '#2d2420' }}>Arif Budi Suryono, S.T.</h3>
-              <p className="font-body text-sm" style={{ color: '#6b4f3a' }}>Putra dari Bapak .......... &amp; Ibu ..........</p>
+              <h3 className="font-display text-2xl italic mb-1" style={{ color: '#2d2420' }}>{weddingData.pria.namaLengkap}</h3>
+              <p className="font-body text-sm" style={{ color: '#6b4f3a' }}>Putra dari {weddingData.pria.namaBapak} & {weddingData.pria.namaIbu}</p>
             </div>
           </Reveal>
 
@@ -264,8 +240,8 @@ function CoupleSection() {
                 <PhotoBox className="w-36 h-36 rounded-full relative z-10" label="Foto Wanita" />
               </div>
               <p className="font-accent text-xs tracking-[0.25em] uppercase mb-1" style={{ color: '#c9a0a0' }}>Mempelai Wanita</p>
-              <h3 className="font-display text-2xl italic mb-1" style={{ color: '#2d2420' }}>Indri ............, S.Pd.</h3>
-              <p className="font-body text-sm" style={{ color: '#6b4f3a' }}>Putri dari Bapak .......... &amp; Ibu ..........</p>
+              <h3 className="font-display text-2xl italic mb-1" style={{ color: '#2d2420' }}>{weddingData.wanita.namaLengkap}</h3>
+              <p className="font-body text-sm" style={{ color: '#6b4f3a' }}>Putri dari {weddingData.wanita.namaBapak} & {weddingData.wanita.namaIbu}</p>
             </div>
           </Reveal>
         </div>
@@ -311,12 +287,13 @@ function EventSection() {
               </div>
               <Ornament color="#c4a35a" />
               <div className="space-y-2">
-                <p className="font-body text-sm" style={{ color: '#e8d5a3' }}>Sabtu, 14 Desember 2024</p>
-                <p className="font-body text-sm" style={{ color: '#e8d5a3' }}>08.00 WIB – Selesai</p>
-                <p className="font-body text-sm mt-3" style={{ color: '#c4a35a' }}>Masjid .....................</p>
-                <p className="font-body text-xs" style={{ color: 'rgba(232,213,163,0.6)' }}>Jl. ............, Kota ..........</p>
+                <p className="font-body text-sm" style={{ color: '#e8d5a3' }}>{weddingData.acara.teksTanggal}</p>
+                <p className="font-body text-sm" style={{ color: '#e8d5a3' }}>{weddingData.acara.akad.waktu}</p>
+                <p className="font-body text-sm mt-3" style={{ color: '#c4a35a' }}>{weddingData.acara.akad.tempat}</p>
+                <p className="font-body text-xs" style={{ color: 'rgba(232,213,163,0.6)' }}>{weddingData.acara.akad.alamat}</p>
               </div>
               <button
+                onClick={() => window.open(weddingData.acara.akad.linkMap, '_blank')}
                 className="mt-5 inline-flex items-center gap-2 px-5 py-2 rounded-full font-body text-xs tracking-widest uppercase transition-all duration-300"
                 style={{ border: '1px solid rgba(196,163,90,0.5)', color: '#e8d5a3' }}
                 onMouseEnter={e => (e.currentTarget.style.background = 'rgba(196,163,90,0.15)')}
@@ -344,12 +321,13 @@ function EventSection() {
               </div>
               <Ornament color="#c9a0a0" />
               <div className="space-y-2">
-                <p className="font-body text-sm" style={{ color: '#e8c8c8' }}>Sabtu, 14 Desember 2024</p>
-                <p className="font-body text-sm" style={{ color: '#e8c8c8' }}>11.00 WIB – 14.00 WIB</p>
-                <p className="font-body text-sm mt-3" style={{ color: '#c9a0a0' }}>Gedung .....................</p>
-                <p className="font-body text-xs" style={{ color: 'rgba(232,200,200,0.6)' }}>Jl. ............, Kota ..........</p>
+                <p className="font-body text-sm" style={{ color: '#e8c8c8' }}>{weddingData.acara.teksTanggal}</p>
+                <p className="font-body text-sm" style={{ color: '#e8c8c8' }}>{weddingData.acara.resepsi.waktu}</p>
+                <p className="font-body text-sm mt-3" style={{ color: '#c9a0a0' }}>{weddingData.acara.resepsi.tempat}</p>
+                <p className="font-body text-xs" style={{ color: 'rgba(232,200,200,0.6)' }}>{weddingData.acara.resepsi.alamat}</p>
               </div>
               <button
+                onClick={() => window.open(weddingData.acara.resepsi.linkMap, '_blank')}
                 className="mt-5 inline-flex items-center gap-2 px-5 py-2 rounded-full font-body text-xs tracking-widest uppercase transition-all duration-300"
                 style={{ border: '1px solid rgba(201,160,160,0.5)', color: '#e8c8c8' }}
                 onMouseEnter={e => (e.currentTarget.style.background = 'rgba(201,160,160,0.15)')}
@@ -365,9 +343,9 @@ function EventSection() {
   )
 }
 
-// 5. Countdown
-function CountdownSection() {
-  const weddingDate = new Date('2024-12-14T08:00:00')
+// 5. Hero Section (Welcome)
+function HeroSection() {
+  const weddingDate = new Date(weddingData.acara.tanggalISO)
   const { days, hours, minutes, seconds } = useCountdown(weddingDate)
 
   const Unit = ({ value, label }: { value: number; label: string }) => (
@@ -385,23 +363,83 @@ function CountdownSection() {
   )
 
   return (
-    <section className="py-20 px-6 text-center" style={{ background: '#faf7f2' }}>
+    <section className="relative min-h-[100dvh] py-10 px-4 flex flex-col items-center justify-center text-center" style={{ background: '#faf7f2' }}>
+      
+      {/* Decorative Top Left */}
+      <div className="absolute top-0 left-0 w-24 h-24 opacity-30" style={{ pointerEvents: 'none' }}>
+        <svg viewBox="0 0 100 100" fill="none">
+          <path d="M0,0 Q50,0 50,50 T100,100" stroke="#c4a35a" strokeWidth="2" fill="none" />
+          <circle cx="20" cy="20" r="10" fill="#c4a35a" opacity="0.2" />
+        </svg>
+      </div>
+
+      {/* Decorative Top Right */}
+      <div className="absolute top-0 right-0 w-24 h-24 opacity-30 transform scale-x-[-1]" style={{ pointerEvents: 'none' }}>
+        <svg viewBox="0 0 100 100" fill="none">
+          <path d="M0,0 Q50,0 50,50 T100,100" stroke="#c4a35a" strokeWidth="2" fill="none" />
+          <circle cx="20" cy="20" r="10" fill="#c4a35a" opacity="0.2" />
+        </svg>
+      </div>
+
       <Reveal>
-        <SectionHeading sub="Menuju Hari Bahagia" title="Hitung Mundur" />
+        <p className="font-accent text-xs md:text-sm tracking-[0.2em] uppercase mb-2 md:mb-4 mt-8" style={{ color: '#c4a35a' }}>
+          The Wedding Of
+        </p>
       </Reveal>
-      <Reveal delay={100}>
-        <div className="flex justify-center gap-4 flex-wrap">
+
+      {/* Photo Frame Arch */}
+      <Reveal delay={100} className="w-[180px] md:w-64 mx-auto mb-4 md:mb-6">
+        <div 
+          className="w-full relative overflow-hidden"
+          style={{ 
+            aspectRatio: '3/4', 
+            borderRadius: '150px 150px 16px 16px',
+            border: '2px solid #c4a35a',
+            padding: '4px',
+            background: '#faf7f2'
+          }}
+        >
+          <div 
+            className="w-full h-full bg-cover bg-center"
+            style={{ 
+              borderRadius: '144px 144px 10px 10px',
+              backgroundImage: `url('${weddingData.galeri.heroImage}')` 
+            }}
+          />
+          {/* Accent on frame */}
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+               <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9L12 2Z" fill="#c4a35a" opacity="0.8" />
+            </svg>
+          </div>
+        </div>
+      </Reveal>
+
+      <Reveal delay={200}>
+        <h1 className="font-display text-4xl md:text-6xl italic leading-tight mb-1" style={{ color: '#2d2420' }}>
+          {weddingData.pria.namaPanggilan} <span className="text-2xl md:text-3xl">&amp;</span> {weddingData.wanita.namaPanggilan}
+        </h1>
+        <p className="font-body text-xs md:text-sm tracking-widest uppercase mt-2 mb-6" style={{ color: '#6b4f3a' }}>
+          {weddingData.acara.teksTanggal}
+        </p>
+      </Reveal>
+
+      <Reveal delay={300} className="w-full max-w-lg z-10">
+        <div className="flex justify-center gap-3 md:gap-4 flex-wrap">
           <Unit value={days} label="Hari" />
           <Unit value={hours} label="Jam" />
           <Unit value={minutes} label="Menit" />
           <Unit value={seconds} label="Detik" />
         </div>
       </Reveal>
-      <Reveal delay={200} className="mt-6">
-        <p className="font-body text-sm italic" style={{ color: '#6b4f3a', opacity: 0.7 }}>
-          Sabtu, 14 Desember 2024
-        </p>
+
+      {/* Bounce scroll hint */}
+      <Reveal delay={400} className="mt-8 mb-4 animate-bounce">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c4a35a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
       </Reveal>
+
     </section>
   )
 }
@@ -448,12 +486,7 @@ function GallerySection() {
 
 // 7. Love Story
 function LoveStorySection() {
-  const events = [
-    { year: '2018', title: 'Pertama Bertemu', desc: 'Kisah cinta kami dimulai dari sebuah pertemuan sederhana yang tak terlupakan.' },
-    { year: '2020', title: 'Menjalin Kasih', desc: 'Langkah demi langkah, hari demi hari, cinta ini semakin tumbuh dan bertumbuh.' },
-    { year: '2023', title: 'Lamaran', desc: 'Di momen yang penuh haru, sebuah janji suci diucapkan dari hati yang terdalam.' },
-    { year: '2024', title: 'Pernikahan', desc: 'Menyempurnakan separuh agama dan membangun mahligai rumah tangga yang sakinah.' },
-  ]
+
 
   return (
     <section className="py-20 px-6" style={{ background: '#faf7f2' }}>
@@ -470,7 +503,7 @@ function LoveStorySection() {
           />
 
           <div className="space-y-10 pl-14">
-            {events.map((e, i) => (
+            {weddingData.ceritaCinta.map((e, i) => (
               <Reveal key={i} delay={i * 100}>
                 <div className="relative">
                   {/* dot */}
@@ -480,9 +513,9 @@ function LoveStorySection() {
                   >
                     <div className="w-2 h-2 rounded-full" style={{ background: '#c4a35a' }} />
                   </div>
-                  <p className="font-accent text-xs tracking-widest uppercase mb-1" style={{ color: '#c4a35a' }}>{e.year}</p>
-                  <h4 className="font-display text-lg italic mb-1" style={{ color: '#2d2420' }}>{e.title}</h4>
-                  <p className="font-body text-sm leading-relaxed" style={{ color: '#6b4f3a' }}>{e.desc}</p>
+                  <p className="font-accent text-xs tracking-widest uppercase mb-1" style={{ color: '#c4a35a' }}>{e.tahun}</p>
+                  <h4 className="font-display text-lg italic mb-1" style={{ color: '#2d2420' }}>{e.judul}</h4>
+                  <p className="font-body text-sm leading-relaxed" style={{ color: '#6b4f3a' }}>{e.cerita}</p>
                 </div>
               </Reveal>
             ))}
@@ -711,10 +744,7 @@ function GiftSection() {
         </Reveal>
 
         <div className="space-y-4">
-          {[
-            { bank: 'Bank BCA', account: '1234567890', name: 'Arif Budi Suryono' },
-            { bank: 'Bank BRI', account: '0987654321', name: 'Indri ..........' },
-          ].map((item, i) => (
+          {weddingData.rekening.map((item, i) => (
             <Reveal key={i} delay={i * 100}>
               <div
                 className="p-6 rounded-2xl"
@@ -723,11 +753,11 @@ function GiftSection() {
                 <p className="font-accent text-xs tracking-widest uppercase mb-1" style={{ color: '#c4a35a' }}>{item.bank}</p>
                 <div className="flex items-center justify-between mt-2">
                   <div>
-                    <p className="font-display text-lg tracking-widest" style={{ color: '#2d2420' }}>{item.account}</p>
-                    <p className="font-body text-xs mt-0.5" style={{ color: '#6b4f3a' }}>a.n. {item.name}</p>
+                    <p className="font-display text-lg tracking-widest" style={{ color: '#2d2420' }}>{item.noRekening}</p>
+                    <p className="font-body text-xs mt-0.5" style={{ color: '#6b4f3a' }}>a.n. {item.atasNama}</p>
                   </div>
                   <button
-                    onClick={() => copy(item.account, item.bank)}
+                    onClick={() => copy(item.noRekening, item.bank)}
                     className="px-4 py-2 rounded-lg font-body text-xs tracking-widest uppercase transition-all duration-200"
                     style={{
                       background: copied === item.bank ? 'rgba(196,163,90,0.2)' : 'rgba(196,163,90,0.1)',
@@ -767,9 +797,9 @@ function ClosingSection() {
           <p className="font-accent text-xs tracking-[0.3em] uppercase mb-6" style={{ color: '#c4a35a' }}>
             Terima Kasih
           </p>
-          <h2 className="font-display text-4xl italic leading-tight mb-2" style={{ color: '#faf7f2' }}>Arif</h2>
+          <h2 className="font-display text-4xl italic leading-tight mb-2" style={{ color: '#faf7f2' }}>{weddingData.pria.namaPanggilan}</h2>
           <p className="font-accent text-2xl tracking-widest mb-2" style={{ color: '#c4a35a' }}>&amp;</p>
-          <h2 className="font-display text-4xl italic leading-tight mb-6" style={{ color: '#faf7f2' }}>Indri</h2>
+          <h2 className="font-display text-4xl italic leading-tight mb-6" style={{ color: '#faf7f2' }}>{weddingData.wanita.namaPanggilan}</h2>
           <Ornament color="#c4a35a" />
           <p className="font-body text-sm leading-relaxed mt-6" style={{ color: 'rgba(250,247,242,0.6)' }}>
             Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu kepada kami.
@@ -782,7 +812,7 @@ function ClosingSection() {
 
       <Reveal delay={200} className="mt-16">
         <p className="font-accent text-xs" style={{ color: 'rgba(255,255,255,0.2)' }}>
-          Made with ♥ — The Wedding of Arif &amp; Indri
+          Made with ♥ — The Wedding of {weddingData.pria.namaPanggilan} & {weddingData.wanita.namaPanggilan}
         </p>
       </Reveal>
     </section>
@@ -801,10 +831,10 @@ export default function App() {
 
   return (
     <main className="overflow-x-hidden">
+      <HeroSection />
       <BismillahSection />
       <CoupleSection />
       <EventSection />
-      <CountdownSection />
       <GallerySection />
       <LoveStorySection />
       <RsvpAndWishesSection />
