@@ -214,7 +214,10 @@ function CoupleSection() {
                   className="absolute inset-0 rounded-full"
                   style={{ border: '1px solid #c4a35a', transform: 'translate(6px,6px)', opacity: 0.5 }}
                 />
-                <PhotoBox className="w-36 h-36 rounded-full relative z-10" label="Foto Pria" />
+                <div 
+                  className="w-36 h-36 rounded-full relative z-10 bg-cover bg-center" 
+                  style={{ backgroundImage: `url('${weddingData.galeri.fotoPria}')` }} 
+                />
               </div>
               <p className="font-accent text-xs tracking-[0.25em] uppercase mb-1" style={{ color: '#c4a35a' }}>Mempelai Pria</p>
               <h3 className="font-display text-2xl italic mb-1" style={{ color: '#2d2420' }}>{weddingData.pria.namaLengkap}</h3>
@@ -237,7 +240,10 @@ function CoupleSection() {
                   className="absolute inset-0 rounded-full"
                   style={{ border: '1px solid #c9a0a0', transform: 'translate(-6px,6px)', opacity: 0.5 }}
                 />
-                <PhotoBox className="w-36 h-36 rounded-full relative z-10" label="Foto Wanita" />
+                <div 
+                  className="w-36 h-36 rounded-full relative z-10 bg-cover bg-center" 
+                  style={{ backgroundImage: `url('${weddingData.galeri.fotoWanita}')` }} 
+                />
               </div>
               <p className="font-accent text-xs tracking-[0.25em] uppercase mb-1" style={{ color: '#c9a0a0' }}>Mempelai Wanita</p>
               <h3 className="font-display text-2xl italic mb-1" style={{ color: '#2d2420' }}>{weddingData.wanita.namaLengkap}</h3>
@@ -797,9 +803,7 @@ function ClosingSection() {
           <p className="font-accent text-xs tracking-[0.3em] uppercase mb-6" style={{ color: '#c4a35a' }}>
             Terima Kasih
           </p>
-          <h2 className="font-display text-4xl italic leading-tight mb-2" style={{ color: '#faf7f2' }}>{weddingData.pria.namaPanggilan}</h2>
-          <p className="font-accent text-2xl tracking-widest mb-2" style={{ color: '#c4a35a' }}>&amp;</p>
-          <h2 className="font-display text-4xl italic leading-tight mb-6" style={{ color: '#faf7f2' }}>{weddingData.wanita.namaPanggilan}</h2>
+
           <Ornament color="#c4a35a" />
           <p className="font-body text-sm leading-relaxed mt-6" style={{ color: 'rgba(250,247,242,0.6)' }}>
             Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu kepada kami.
