@@ -94,6 +94,9 @@ export const weddingData = {
     tampilkanCeritaCinta: true,
     tampilkanRSVP: true,
     tampilkanHadiah: true,
+    tampilkanEfekSparkle: true,
+    tampilkanOrnamenDaun: true,
+    tampilkanGarisAbstrak: true,
   },
 
   // 6. Musik Latar

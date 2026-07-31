@@ -1,3 +1,100 @@
+
+// ══════════════════════════════════════════════════════════════════════════════
+// ORNAMENTS & EFFECTS
+// ══════════════════════════════════════════════════════════════════════════════
+
+
+function AbstractLines() {
+  if (!weddingData.fitur.tampilkanGarisAbstrak) return null;
+  return (
+    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" style={{ opacity: 0.7, transform: 'translateZ(0)' }}>
+      <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" shapeRendering="optimizeSpeed">
+        
+        {/* Path 1 */}
+        <path d="M-10,20 C 30,50 70,0 110,40" stroke="#c4a35a" strokeWidth="0.3" fill="none" opacity="0.3" />
+        {/* <path d="M-10,20 C 30,50 70,0 110,40" stroke="#ffd700" strokeWidth="0.3" fill="none" pathLength="100" strokeLinecap="round" opacity="0.1" className="animate-light-flow flow-delay-1" />
+        <path d="M-10,20 C 30,50 70,0 110,40" stroke="#fff" strokeWidth="0.2" fill="none" pathLength="100" strokeLinecap="round" opacity="0.1" className="animate-light-flow flow-delay-1" /> */}
+        
+        {/* Path 3 */}
+        <path d="M-10,30 C 40,30 60,30 110,60" stroke="#c4a35a" strokeWidth="0.5" fill="none" opacity="0.3" />
+        {/* <path d="M-10,30 C 40,30 60,30 110,60" stroke="#ffd700" strokeWidth="0.3" fill="none" pathLength="100" strokeLinecap="round" opacity="0.1" className="animate-light-flow flow-delay-3" />
+        <path d="M-10,30 C 40,30 60,30 110,60" stroke="#fff" strokeWidth="0.2" fill="none" pathLength="100" strokeLinecap="round" opacity="0.1" className="animate-light-flow flow-delay-3" /> */}
+        
+        {/* Path 7 (Vertical-ish) */}
+        <path d="M80,-10 C 90,30 40,70 70,110" stroke="#c4a35a" strokeWidth="0.2" fill="none" opacity="0.3" />
+        {/* <path d="M80,-10 C 90,30 40,70 70,110" stroke="#ffd700" strokeWidth="0.3" fill="none" pathLength="100" strokeLinecap="round" opacity="0.1" className="animate-light-flow flow-delay-2" />
+        <path d="M80,-10 C 90,30 40,70 70,110" stroke="#fff" strokeWidth="0.4" fill="none" pathLength="100" strokeLinecap="round" opacity="0.1" className="animate-light-flow flow-delay-2" /> */}
+        
+      </svg>
+    </div>
+  )
+}
+
+const cachedParticles = Array.from({ length: 20 }).map((_, i) => ({
+    id: i,
+    left: Math.random() * 100 + '%',
+    animationDuration: 6 + Math.random() * 8 + 's',
+    animationDelay: Math.random() * 4 + 's',
+    size: Math.random() * 2 + 2 + 'px'
+}));
+
+function Sparkles() {
+  if (!weddingData.fitur.tampilkanEfekSparkle) return null;
+  const particles = cachedParticles;
+
+  return (
+    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+      {particles.map(p => (
+        <div 
+          key={p.id}
+          className="absolute rounded-full animate-sparkle"
+          style={{
+            left: p.left,
+            bottom: '-10px',
+            width: p.size,
+            height: p.size,
+            backgroundColor: '#c4a35a',
+            willChange: 'transform, opacity',
+            animationDuration: p.animationDuration,
+            animationDelay: p.animationDelay
+          }}
+        />
+      ))}
+    </div>
+  )
+}
+
+function CornerOrnament({ position = 'top-left' }: { position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' }) {
+  if (!weddingData.fitur.tampilkanOrnamenDaun) return null;
+
+  let posStyle = {};
+  let transform = '';
+  if (position === 'top-left') { posStyle = { top: 0, left: 0 }; transform = 'scale(1)'; }
+  if (position === 'top-right') { posStyle = { top: 0, right: 0 }; transform = 'scaleX(-1)'; }
+  if (position === 'bottom-left') { posStyle = { bottom: 0, left: 0 }; transform = 'scaleY(-1)'; }
+  if (position === 'bottom-right') { posStyle = { bottom: 0, right: 0 }; transform = 'scale(-1, -1)'; }
+
+  return (
+    <div className="absolute opacity-60 pointer-events-none z-10 w-40 md:w-56" style={{ ...posStyle, transform }}>
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 0 L 150 0 C 150 0 140 30 110 50 C 80 70 50 40 40 80 C 30 120 40 160 0 200 Z" fill="url(#goldGradient)" />
+        <path d="M 0 0 C 40 0 80 30 100 80 C 120 130 110 180 130 200" stroke="#c4a35a" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+        <circle cx="90" cy="50" r="4" fill="#c4a35a" />
+        <circle cx="60" cy="90" r="3" fill="#c4a35a" />
+        <circle cx="120" cy="120" r="2" fill="#c4a35a" />
+        <circle cx="30" cy="150" r="3" fill="#c4a35a" />
+        <defs>
+          <linearGradient id="goldGradient" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#c4a35a" stopOpacity="0.7" />
+            <stop offset="1" stopColor="#e8d5a3" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+  )
+}
+
+
 import { useState, useEffect, useRef } from 'react'
 import { ref, push, onValue, serverTimestamp } from 'firebase/database';
 import { db } from './firebase';
@@ -136,7 +233,7 @@ function CoverSection({ onOpen }: { onOpen: () => void }) {
       </div>
 
       {/* Bagian Bawah */}
-      <div className="relative z-10 text-center pb-28 px-6 mt-auto">
+      <div className="relative z-10 text-center pb-42 px-6 mt-auto">
         
         <div className="animate-fade-up delay-200 mb-6">
           <p className="font-accent text-sm tracking-[0.3em] uppercase mb-2" style={{ color: '#c4a35a' }}>
@@ -244,7 +341,7 @@ function CoupleSection() {
               {/* Floating Leaf / Ornament */}
               <div className="absolute -bottom-4 -right-4">
                 <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                  <path d="M20 0C20 11.0457 11.0457 20 0 20C11.0457 20 20 28.9543 20 40C20 28.9543 28.9543 20 40 20C28.9543 20 20 11.0457 20 0Z" fill="#c4a35a" opacity="0.4" />
+                  <path d="M20 0C20 11.0457 11.0457 20 0 20C11.0457 20 20 28.9543 20 40C20 28.9543 28.9543 20 40 20C28.9543 20 20 11.0457 20 0Z" fill="#c4a35a" opacity="0.2" />
                 </svg>
               </div>
             </div>
@@ -460,20 +557,10 @@ function HeroSection() {
     <section className="relative min-h-[100dvh] py-10 px-4 flex flex-col items-center justify-center text-center" style={{ background: '#faf7f2' }}>
       
       {/* Decorative Top Left */}
-      <div className="absolute top-0 left-0 w-24 h-24 opacity-30" style={{ pointerEvents: 'none' }}>
-        <svg viewBox="0 0 100 100" fill="none">
-          <path d="M0,0 Q50,0 50,50 T100,100" stroke="#c4a35a" strokeWidth="2" fill="none" />
-          <circle cx="20" cy="20" r="10" fill="#c4a35a" opacity="0.2" />
-        </svg>
-      </div>
+      <CornerOrnament position="top-left" />
 
       {/* Decorative Top Right */}
-      <div className="absolute top-0 right-0 w-24 h-24 opacity-30 transform scale-x-[-1]" style={{ pointerEvents: 'none' }}>
-        <svg viewBox="0 0 100 100" fill="none">
-          <path d="M0,0 Q50,0 50,50 T100,100" stroke="#c4a35a" strokeWidth="2" fill="none" />
-          <circle cx="20" cy="20" r="10" fill="#c4a35a" opacity="0.2" />
-        </svg>
-      </div>
+      <CornerOrnament position="top-right" />
 
       <Reveal>
         <p className="font-accent text-xs md:text-sm tracking-[0.2em] uppercase mb-2 md:mb-4 mt-8" style={{ color: '#c4a35a' }}>
@@ -998,7 +1085,9 @@ export default function App() {
 
   return (
     <>
-      <main className="overflow-x-hidden">
+      <main className="overflow-x-hidden relative">
+      <AbstractLines />
+      <Sparkles />
       <HeroSection />
       {weddingData.fitur.tampilkanBismillah && <BismillahSection />}
       {weddingData.fitur.tampilkanMempelai && <CoupleSection />}

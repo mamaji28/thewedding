@@ -78,3 +78,32 @@ body {
 .animate-pulse-soft {
   animation: pulse-soft 2.5s ease-in-out infinite;
 }
+
+/* Sparkle Animation */
+@keyframes sparkle-float {
+  0% { transform: translateY(0) scale(1); opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateY(-100px) scale(0.5); opacity: 0; }
+}
+.animate-sparkle {
+  animation: sparkle-float linear infinite;
+}
+
+/* Light flowing along SVG path */
+@keyframes light-flow {
+  0% { stroke-dashoffset: 100; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}
+.animate-light-flow {
+  will-change: stroke-dashoffset, opacity;
+  stroke-dasharray: 10 90; /* 10% is the light length, 90% is the gap */
+  animation: light-flow 8s linear infinite;
+}
+.flow-delay-1 { animation-delay: 0s; animation-duration: 8s; }
+.flow-delay-2 { animation-delay: 2s; animation-duration: 12s; }
+.flow-delay-3 { animation-delay: 4s; animation-duration: 10s; }
+.flow-delay-4 { animation-delay: 1s; animation-duration: 9s; }
+.flow-delay-5 { animation-delay: 5s; animation-duration: 15s; }
