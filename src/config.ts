@@ -3,14 +3,18 @@ export const weddingData = {
   pria: {
     namaPanggilan: "Putra",
     namaLengkap: "Aliansyah Pradana Putra, S.Kom, M.Kom",
-    namaBapak: "Bapak ..........",
-    namaIbu: "Ibu ..........",
+    urutanAnak: "Putra Kedua",
+    namaBapak: "Bapak Adianto Purnomo",
+    namaIbu: "Ibu Dewi Suhartati (Almh)",
+    alamat: "Jl. Hasanudin No.16 RT 03 RW 13, Purwosari, Laweyan, Surakarta"
   },
   wanita: {
-    namaPanggilan: "Putri",
-    namaLengkap: "Lestari Putri Ningsih, S.Pd.",
+    namaPanggilan: "Ayu",
+    namaLengkap: "Ayu Rahmawati, S.Pd.",
+    urutanAnak: "Putri Pertama",
     namaBapak: "Bapak ..........",
     namaIbu: "Ibu ..........",
+    alamat: "Jl. Merdeka No.45 RT 01 RW 02, Jebres, Surakarta"
   },
 
   // Gambar Latar (Background) & Foto
@@ -79,5 +83,19 @@ export const weddingData = {
       noRekening: "0987654321", 
       atasNama: "Lestari Putri Ningsih" 
     },
-  ]
+  ],
+
+  // 5. Fitur (Saklar Modul)
+  fitur: {
+    tampilkanBismillah: true,
+    tampilkanMempelai: true,
+    tampilkanAcara: true,
+    tampilkanGaleri: true,
+    tampilkanCeritaCinta: true,
+    tampilkanRSVP: true,
+    tampilkanHadiah: true,
+  },
+
+  // 6. Musik Latar
+  musik: "/song.mp3"
 };

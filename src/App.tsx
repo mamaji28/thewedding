@@ -197,59 +197,147 @@ function BismillahSection() {
 }
 
 // 3. Couple Section
+// 2. Couple Section
 function CoupleSection() {
   return (
-    <section className="py-20 px-6" style={{ background: 'linear-gradient(180deg, #faf7f2 0%, #f5ede0 100%)' }}>
-      <div className="max-w-2xl mx-auto">
+    <section className="py-24 px-6 relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #faf7f2 0%, #f5ede0 100%)' }}>
+      
+      {/* Decorative background accents */}
+      <div className="absolute top-20 right-0 w-64 h-64 opacity-5" style={{ pointerEvents: 'none' }}>
+        <svg viewBox="0 0 200 200" fill="none">
+          <circle cx="200" cy="100" r="100" stroke="#c4a35a" strokeWidth="2" />
+          <circle cx="200" cy="100" r="70" stroke="#c4a35a" strokeWidth="1" />
+        </svg>
+      </div>
+
+      <div className="max-w-4xl mx-auto relative z-10">
         <Reveal>
           <SectionHeading sub="Kedua Mempelai" title="Yang Berbahagia" />
         </Reveal>
 
-        <div className="flex flex-col gap-12">
+        <div className="flex flex-col md:flex-row gap-16 md:gap-8 justify-center items-center mt-12">
+          
           {/* Groom */}
-          <Reveal delay={100}>
-            <div className="flex flex-col items-center text-center">
-              <div className="relative mb-6">
-                <div
-                  className="absolute inset-0 rounded-full"
-                  style={{ border: '1px solid #c4a35a', transform: 'translate(6px,6px)', opacity: 0.5 }}
-                />
-                <div 
-                  className="w-36 h-36 rounded-full relative z-10 bg-cover bg-center" 
-                  style={{ backgroundImage: `url('${weddingData.galeri.fotoPria}')` }} 
-                />
+          <Reveal delay={100} className="w-full max-w-sm flex flex-col items-center text-center">
+            
+            {/* Elegant Abstract Frame */}
+            <div className="relative mb-10 w-64 md:w-72" style={{ aspectRatio: '4/5' }}>
+              {/* Offset Gold Border */}
+              <div 
+                className="absolute inset-0"
+                style={{ 
+                  border: '2px solid rgba(196,163,90,0.5)', 
+                  borderRadius: '100px 0 100px 0',
+                  transform: 'translate(-12px, 12px)'
+                }}
+              />
+              {/* Photo Image */}
+              <div 
+                className="absolute inset-0 bg-cover bg-center shadow-2xl"
+                style={{ 
+                  backgroundImage: `url('${weddingData.galeri.fotoPria}')`,
+                  borderRadius: '0 100px 0 100px',
+                  border: '4px solid #faf7f2'
+                }}
+              />
+              
+              {/* Floating Leaf / Ornament */}
+              <div className="absolute -bottom-4 -right-4">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                  <path d="M20 0C20 11.0457 11.0457 20 0 20C11.0457 20 20 28.9543 20 40C20 28.9543 28.9543 20 40 20C28.9543 20 20 11.0457 20 0Z" fill="#c4a35a" opacity="0.4" />
+                </svg>
               </div>
-              <p className="font-accent text-xs tracking-[0.25em] uppercase mb-1" style={{ color: '#c4a35a' }}>Mempelai Pria</p>
-              <h3 className="font-display text-2xl italic mb-1" style={{ color: '#2d2420' }}>{weddingData.pria.namaLengkap}</h3>
-              <p className="font-body text-sm" style={{ color: '#6b4f3a' }}>Putra dari {weddingData.pria.namaBapak} & {weddingData.pria.namaIbu}</p>
+            </div>
+
+            <p className="font-accent text-xs tracking-[0.3em] uppercase mb-3" style={{ color: '#c4a35a' }}>
+              Mempelai Pria
+            </p>
+            <h3 className="font-display text-2xl italic mb-4" style={{ color: '#c4a35a' }}>
+              {weddingData.pria.namaLengkap}
+            </h3>
+            
+            <div className="space-y-1">
+              <p className="font-body text-sm font-semibold" style={{ color: '#2d2420' }}>
+                {weddingData.pria.urutanAnak} dari
+              </p>
+              <p className="font-body text-sm" style={{ color: '#6b4f3a' }}>
+                {weddingData.pria.namaBapak}
+              </p>
+              <p className="font-body text-sm" style={{ color: '#6b4f3a' }}>
+                  &amp; {weddingData.pria.namaIbu}
+              </p>
+              <p className="font-body text-xs italic mt-2 opacity-70" style={{ color: '#6b4f3a', maxWidth: '280px' }}>
+                ({weddingData.pria.alamat})
+              </p>
             </div>
           </Reveal>
 
-          {/* Divider */}
-          <Reveal delay={150} className="flex flex-col items-center">
-            <div style={{ width: 1, height: 40, background: 'linear-gradient(to bottom, transparent, #c4a35a, transparent)' }} />
-            <p className="font-display text-3xl italic my-2" style={{ color: '#c4a35a' }}>&amp;</p>
-            <div style={{ width: 1, height: 40, background: 'linear-gradient(to bottom, transparent, #c4a35a, transparent)' }} />
+          {/* Divider (Hidden on Mobile, Vertical on Desktop, Horizontal on Mobile) */}
+          <Reveal delay={150} className="hidden md:flex flex-col items-center h-64">
+            <div style={{ width: 1, height: '100%', background: 'linear-gradient(to bottom, transparent, #c4a35a, transparent)' }} />
+          </Reveal>
+          
+          <Reveal delay={150} className="md:hidden flex items-center w-full max-w-xs">
+            <div style={{ height: 1, width: '100%', background: 'linear-gradient(to right, transparent, #c4a35a, transparent)' }} />
+            <p className="font-display text-4xl italic mx-4" style={{ color: '#c4a35a' }}>&amp;</p>
+            <div style={{ height: 1, width: '100%', background: 'linear-gradient(to right, transparent, #c4a35a, transparent)' }} />
           </Reveal>
 
           {/* Bride */}
-          <Reveal delay={200}>
-            <div className="flex flex-col items-center text-center">
-              <div className="relative mb-6">
-                <div
-                  className="absolute inset-0 rounded-full"
-                  style={{ border: '1px solid #c9a0a0', transform: 'translate(-6px,6px)', opacity: 0.5 }}
-                />
-                <div 
-                  className="w-36 h-36 rounded-full relative z-10 bg-cover bg-center" 
-                  style={{ backgroundImage: `url('${weddingData.galeri.fotoWanita}')` }} 
-                />
+          <Reveal delay={200} className="w-full max-w-sm flex flex-col items-center text-center">
+            
+            {/* Elegant Abstract Frame */}
+            <div className="relative mb-10 w-64 md:w-72" style={{ aspectRatio: '4/5' }}>
+              {/* Offset Gold Border */}
+              <div 
+                className="absolute inset-0"
+                style={{ 
+                  border: '2px solid rgba(196,163,90,0.5)', 
+                  borderRadius: '0 100px 0 100px',
+                  transform: 'translate(12px, -12px)'
+                }}
+              />
+              {/* Photo Image */}
+              <div 
+                className="absolute inset-0 bg-cover bg-center shadow-2xl"
+                style={{ 
+                  backgroundImage: `url('${weddingData.galeri.fotoWanita}')`,
+                  borderRadius: '100px 0 100px 0',
+                  border: '4px solid #faf7f2'
+                }}
+              />
+              
+              {/* Floating Leaf / Ornament */}
+              <div className="absolute -top-4 -left-4">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                  <path d="M20 0C20 11.0457 11.0457 20 0 20C11.0457 20 20 28.9543 20 40C20 28.9543 28.9543 20 40 20C28.9543 20 20 11.0457 20 0Z" fill="#c4a35a" opacity="0.4" />
+                </svg>
               </div>
-              <p className="font-accent text-xs tracking-[0.25em] uppercase mb-1" style={{ color: '#c9a0a0' }}>Mempelai Wanita</p>
-              <h3 className="font-display text-2xl italic mb-1" style={{ color: '#2d2420' }}>{weddingData.wanita.namaLengkap}</h3>
-              <p className="font-body text-sm" style={{ color: '#6b4f3a' }}>Putri dari {weddingData.wanita.namaBapak} & {weddingData.wanita.namaIbu}</p>
+            </div>
+
+            <p className="font-accent text-xs tracking-[0.3em] uppercase mb-3" style={{ color: '#c9a0a0' }}>
+              Mempelai Wanita
+            </p>
+            <h3 className="font-display text-2xl italic mb-4" style={{ color: '#c4a35a' }}>
+              {weddingData.wanita.namaLengkap}
+            </h3>
+            
+            <div className="space-y-1">
+              <p className="font-body text-sm font-semibold" style={{ color: '#2d2420' }}>
+                {weddingData.wanita.urutanAnak} dari
+              </p>
+              <p className="font-body text-sm" style={{ color: '#6b4f3a' }}>
+                {weddingData.wanita.namaBapak} 
+              </p>
+              <p className="font-body text-sm" style={{ color: '#6b4f3a' }}>
+                &amp; {weddingData.wanita.namaIbu}
+              </p>
+              <p className="font-body text-xs italic mt-2 opacity-70" style={{ color: '#6b4f3a', maxWidth: '280px' }}>
+                ({weddingData.wanita.alamat})
+              </p>
             </div>
           </Reveal>
+
         </div>
       </div>
     </section>
@@ -536,9 +624,14 @@ function LoveStorySection() {
 
 // 8. RSVP & Wishes (Youtube-style Comments)
 function RsvpAndWishesSection() {
-  const [form, setForm] = useState({ name: '', attend: 'hadir', message: '' })
+  const searchParams = new URLSearchParams(window.location.search);
+  const guestName = searchParams.get('to');
+  const isNameLocked = !!guestName;
+
+  const [form, setForm] = useState({ name: guestName || '', attend: 'hadir', message: '' })
   const [comments, setComments] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
+  const [visibleCount, setVisibleCount] = useState(10) // Pagination state
 
   // Fetch comments in real-time from Realtime Database
   useEffect(() => {
@@ -570,8 +663,8 @@ function RsvpAndWishesSection() {
         pesan: form.message,
         createdAt: serverTimestamp()
       })
-      // Clear form after successful submit
-      setForm({ name: '', attend: 'hadir', message: '' })
+      // Clear form after successful submit (preserve name if locked)
+      setForm({ name: isNameLocked ? guestName! : '', attend: 'hadir', message: '' })
     } catch (error) {
       console.error("Error adding document: ", error)
       alert("Gagal mengirim pesan, silakan coba lagi.")
@@ -599,14 +692,19 @@ function RsvpAndWishesSection() {
     return { bg: 'rgba(202, 138, 4, 0.1)', border: '#ca8a04', text: '#ca8a04', label: 'MASIH RAGU' }
   }
 
-  const scrollbarCSS = ".custom-scrollbar::-webkit-scrollbar { width: 4px; } .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); } .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }";
+  const scrollbarCSS = ".custom-scrollbar::-webkit-scrollbar { width: 6px; } .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); border-radius: 4px; } .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; } .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.3); }";
+
+  const visibleComments = comments.slice(0, visibleCount);
 
   return (
     <section className="py-20 px-6 relative overflow-hidden" style={{ background: '#111111' }}>
+      <style>{scrollbarCSS}</style>
       <div className="max-w-xl mx-auto">
         <Reveal>
-          <div className="text-center mb-8">
-            <h2 className="font-display text-2xl" style={{ color: '#faf7f2' }}>{comments.length} Comments</h2>
+          <SectionHeading sub="Kehadiran & Doa" title="RSVP & Wishes" light />
+          
+          <div className="text-center mb-8 p-4 rounded-xl inline-block w-full" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.1)' }}>
+            <h2 className="font-display text-xl" style={{ color: '#e8d5a3' }}>{comments.length} Comments</h2>
           </div>
           
           {/* Stats */}
@@ -635,12 +733,13 @@ function RsvpAndWishesSection() {
                 type="text"
                 required
                 value={form.name}
-                onChange={e => setForm({ ...form, name: e.target.value })}
+                readOnly={isNameLocked}
+                onChange={e => !isNameLocked && setForm({ ...form, name: e.target.value })}
                 placeholder="Masukkan nama Anda"
-                className="w-full px-4 py-3 rounded-lg font-body text-sm outline-none transition-all duration-200"
+                className={`w-full px-4 py-3 rounded-lg font-body text-sm outline-none transition-all duration-200 ${isNameLocked ? 'opacity-60 cursor-not-allowed' : ''}`}
                 style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: '#faf7f2' }}
-                onFocus={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)')}
-                onBlur={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)')}
+                onFocus={e => { if(!isNameLocked) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)' }}
+                onBlur={e => { if(!isNameLocked) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)' }}
               />
             </div>
 
@@ -666,7 +765,7 @@ function RsvpAndWishesSection() {
                 value={form.message}
                 onChange={e => setForm({ ...form, message: e.target.value })}
                 placeholder="Tuliskan ucapan atau doa untuk kedua mempelai..."
-                className="w-full px-4 py-3 rounded-lg font-body text-sm outline-none resize-none transition-all duration-200"
+                className="w-full px-4 py-3 rounded-lg font-body text-sm outline-none resize-none transition-all duration-200 custom-scrollbar"
                 style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: '#faf7f2' }}
                 onFocus={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)')}
                 onBlur={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)')}
@@ -692,7 +791,7 @@ function RsvpAndWishesSection() {
 
         {/* Comments List */}
         <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
-          {comments.map((comment, i) => {
+          {visibleComments.map((comment, i) => {
             const badge = getBadgeColor(comment.kehadiran)
             return (
               <Reveal key={comment.id} delay={Math.min(i * 50, 500)}>
@@ -715,16 +814,21 @@ function RsvpAndWishesSection() {
               </Reveal>
             )
           })}
-          
-          {comments.length === 0 && (
-            <div className="text-center py-10" style={{ color: 'rgba(255,255,255,0.4)' }}>
-              <p className="font-body text-sm">Belum ada komentar. Jadilah yang pertama!</p>
-            </div>
-          )}
         </div>
+        
+        {/* Load More Button */}
+        {visibleCount < comments.length && (
+          <Reveal className="mt-8 text-center">
+            <button
+              onClick={() => setVisibleCount(prev => prev + 10)}
+              className="px-6 py-3 rounded-full font-accent text-xs tracking-widest uppercase transition-all duration-300 hover:bg-white/5"
+              style={{ border: '1px solid rgba(255,255,255,0.2)', color: '#faf7f2' }}
+            >
+              Tampilkan Lebih Banyak
+            </button>
+          </Reveal>
+        )}
       </div>
-      
-      <style>{scrollbarCSS}</style>
     </section>
   )
 }
@@ -826,6 +930,65 @@ function ClosingSection() {
 // ══════════════════════════════════════════════════════════════════════════════
 // MAIN APP
 // ══════════════════════════════════════════════════════════════════════════════
+
+// ══════════════════════════════════════════════════════════════════════════════
+// AUDIO PLAYER
+// ══════════════════════════════════════════════════════════════════════════════
+function AudioPlayer() {
+  const [isPlaying, setIsPlaying] = useState(true)
+  const audioRef = useRef<HTMLAudioElement>(null)
+
+  // Start playing automatically when component mounts (after Cover is opened)
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.play().catch(e => console.log("Auto-play prevented by browser", e))
+    }
+  }, [])
+
+  const togglePlay = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause()
+      } else {
+        audioRef.current.play()
+      }
+      setIsPlaying(!isPlaying)
+    }
+  }
+
+  if (!weddingData.musik) return null
+
+  return (
+    <>
+      <audio ref={audioRef} src={weddingData.musik} loop />
+      <button
+        onClick={togglePlay}
+        className="fixed bottom-6 right-6 w-12 h-12 rounded-full flex items-center justify-center z-50 shadow-xl transition-transform hover:scale-110"
+        style={{ background: '#2d2420', border: '2px solid #c4a35a' }}
+        aria-label="Toggle Music"
+      >
+        {/* Piringan Hitam Icon */}
+        <div className={`w-8 h-8 rounded-full border border-gray-700 flex items-center justify-center ${isPlaying ? 'animate-[spin_4s_linear_infinite]' : ''}`} style={{ background: '#111' }}>
+          {/* Inner circle */}
+          <div className="w-3 h-3 rounded-full" style={{ background: '#c4a35a' }}>
+            <div className="w-1 h-1 rounded-full bg-black mx-auto mt-1" />
+          </div>
+          {/* Grooves */}
+          <div className="absolute inset-1 rounded-full border border-gray-700 opacity-50" />
+          <div className="absolute inset-2 rounded-full border border-gray-600 opacity-50" />
+        </div>
+        
+        {/* Pause/Play indicator (optional visual feedback) */}
+        {!isPlaying && (
+          <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center border-2 border-white">
+            <div className="w-1.5 h-1.5 bg-white" style={{ clipPath: 'polygon(0 0, 0 100%, 100% 50%)' }} />
+          </div>
+        )}
+      </button>
+    </>
+  )
+}
+
 export default function App() {
   const [opened, setOpened] = useState(false)
 
@@ -834,16 +997,19 @@ export default function App() {
   }
 
   return (
-    <main className="overflow-x-hidden">
+    <>
+      <main className="overflow-x-hidden">
       <HeroSection />
-      <BismillahSection />
-      <CoupleSection />
-      <EventSection />
-      <GallerySection />
-      <LoveStorySection />
-      <RsvpAndWishesSection />
-      <GiftSection />
+      {weddingData.fitur.tampilkanBismillah && <BismillahSection />}
+      {weddingData.fitur.tampilkanMempelai && <CoupleSection />}
+      {weddingData.fitur.tampilkanAcara && <EventSection />}
+      {weddingData.fitur.tampilkanGaleri && <GallerySection />}
+      {weddingData.fitur.tampilkanCeritaCinta && <LoveStorySection />}
+      {weddingData.fitur.tampilkanRSVP && <RsvpAndWishesSection />}
+      {weddingData.fitur.tampilkanHadiah && <GiftSection />}
       <ClosingSection />
     </main>
+      <AudioPlayer />
+    </>
   )
 }
