@@ -136,7 +136,7 @@ function CoverSection({ onOpen }: { onOpen: () => void }) {
       </div>
 
       {/* Bagian Bawah */}
-      <div className="relative z-10 text-center pb-24 px-6 mt-auto">
+      <div className="relative z-10 text-center pb-28 px-6 mt-auto">
         
         <div className="animate-fade-up delay-200 mb-6">
           <p className="font-accent text-sm tracking-[0.3em] uppercase mb-2" style={{ color: '#c4a35a' }}>
