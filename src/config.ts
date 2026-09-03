@@ -1,20 +1,20 @@
 export const weddingData = {
   // 1. Data Mempelai
   pria: {
-    namaPanggilan: "Putra",
-    namaLengkap: "Aliansyah Pradana Putra, S.Kom, M.Kom",
-    urutanAnak: "Putra Kedua",
-    namaBapak: "Bapak Adianto Purnomo",
-    namaIbu: "Ibu Dewi Suhartati (Almh)",
-    alamat: "Jl. Hasanudin No.16 RT 03 RW 13, Purwosari, Laweyan, Surakarta"
+    namaPanggilan: "Majid",
+    namaLengkap: "Muhammad Majid Fadhillah, S.Kom.",
+    urutanAnak: "Putra Pertama",
+    namaBapak: "Bapak Syahidullah",
+    namaIbu: "Ibu Yani Ristiyanti",
+    alamat: "Kragilan, RT 004/RW 012, Kel. Banjarsari, Kec. Banjarsari, Surakarta "
   },
   wanita: {
-    namaPanggilan: "Ayu",
-    namaLengkap: "Ayu Rahmawati, S.Pd.",
+    namaPanggilan: "Riri",
+    namaLengkap: "Riri Delany, S.H.",
     urutanAnak: "Putri Pertama",
-    namaBapak: "Bapak ..........",
-    namaIbu: "Ibu ..........",
-    alamat: "Jl. Merdeka No.45 RT 01 RW 02, Jebres, Surakarta"
+    namaBapak: "Bapak Edi Suryanto Tri Nugroho",
+    namaIbu: "Ibu Lany Sulistiyaningsih",
+    alamat: "Banyuagung RT 004/RW 002, Kel. Kadipiro, Kec. Banjarsari, Surakarta"
   },
 
   // Gambar Latar (Background) & Foto
@@ -28,44 +28,44 @@ export const weddingData = {
   // 2. Data Waktu & Acara
   acara: {
     // Format ISO untuk sistem Hitung Mundur (Tahun-Bulan-TanggalTJam:Menit:Detik)
-    tanggalISO: "2026-07-29T14:59:00",
+    tanggalISO: "2026-10-16T14:59:00",
     
     // Format Teks untuk ditampilkan di layar
-    teksTanggal: "Sabtu, 14 Desember 2024",
+    teksTanggal: "Jumat, 16 Oktober 2026",
     
     akad: {
-      waktu: "08.00 WIB – Selesai",
-      tempat: "Masjid .....................",
-      alamat: "Jl. ............, Kota ..........",
-      linkMap: "https://maps.app.goo.gl/3V9bKNCaA6G84TRF9", // Ganti dengan link Google Maps sungguhan
+      waktu: "15.00 WIB – Selesai",
+      tempat: "Bale Piniji, Taman Balekambang, Surakarta ",
+      alamat: "Jl. Depok, Manahan, Kec. Banjarsari, Kota Surakarta, Jawa Tengah",
+      linkMap: "https://maps.app.goo.gl/YScqeTPf95njgCFs5", // Ganti dengan link Google Maps sungguhan
     },
     resepsi: {
-      waktu: "11.00 WIB – 14.00 WIB",
-      tempat: "Gedung .....................",
-      alamat: "Jl. ............, Kota ..........",
-      linkMap: "https://maps.app.goo.gl/3V9bKNCaA6G84TRF9", // Ganti dengan link Google Maps sungguhan
+      waktu: "15.00 WIB – 17.00 WIB",
+      tempat: "Bale Piniji, Taman Balekambang, Surakarta",
+      alamat: "Jl. Depok, Manahan, Kec. Banjarsari, Kota Surakarta, Jawa Tengah",
+      linkMap: "https://maps.app.goo.gl/YScqeTPf95njgCFs5", // Ganti dengan link Google Maps sungguhan
     }
   },
 
   // 3. Cerita Cinta (Love Story)
   ceritaCinta: [
     { 
-      tahun: "2018", 
+      tahun: "2013", 
       judul: "Pertama Bertemu", 
       cerita: "Kisah cinta kami dimulai dari sebuah pertemuan sederhana yang tak terlupakan." 
     },
     { 
-      tahun: "2020", 
+      tahun: "2025", 
       judul: "Menjalin Kasih", 
       cerita: "Langkah demi langkah, hari demi hari, cinta ini semakin tumbuh dan bertumbuh." 
     },
     { 
-      tahun: "2023", 
+      tahun: "2026", 
       judul: "Lamaran", 
       cerita: "Di momen yang penuh haru, sebuah janji suci diucapkan dari hati yang terdalam." 
     },
     { 
-      tahun: "2024", 
+      tahun: "2026", 
       judul: "Pernikahan", 
       cerita: "Menyempurnakan separuh agama dan membangun mahligai rumah tangga yang sakinah." 
     },
@@ -100,5 +100,5 @@ export const weddingData = {
   },
 
   // 6. Musik Latar
-  musik: "/song.mp3"
+  musik: "/Magnolia.mp3"
 };
