@@ -1,4 +1,4 @@
-export const weddingData = {
+export const theweddingData = {
   // 1. Data Mempelai
   pria: {
     namaPanggilan: "Majid",
