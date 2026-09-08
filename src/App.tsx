@@ -212,14 +212,26 @@ function CoverSection({ onOpen }: { onOpen: () => void }) {
   const guestName = searchParams.get('to') || 'Tamu Undangan';
 
   return (
-    <section
-      className="relative min-h-screen flex flex-col justify-between overflow-hidden"
-      style={{ 
-        backgroundImage: `url('${weddingData.galeri.coverImage}')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center'
-      }}
-    >
+    <section className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-black">
+
+  {/* Background Video */}
+  <video
+    autoPlay
+    muted
+    loop
+    playsInline
+    preload="auto"
+    poster={weddingData.galeri.coverImage}
+    className="absolute inset-0 w-full h-full object-cover object-center"
+  >
+    <source src={weddingData.galeri.coverVideo} type="video/mp4" />
+  </video>
+
+  {/* Dark overlay */}
+  <div
+    className="absolute inset-0 bg-black/20"
+    style={{ pointerEvents: 'none' }}
+  />
       {/* Dark overlay agar teks putih terbaca dengan jelas */}
       <div className="absolute inset-0 bg-black/75" style={{ pointerEvents: 'none' }} />
 
