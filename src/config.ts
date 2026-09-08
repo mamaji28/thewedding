@@ -100,5 +100,5 @@ export const weddingData = {
   },
 
   // 6. Musik Latar
-  musik: "/Magnolia.mp3"
+  musik: "assets/song/Magnolia.mp3"
 };
