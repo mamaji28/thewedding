@@ -64,34 +64,84 @@ function Sparkles() {
   )
 }
 
-function CornerOrnament({ position = 'top-left' }: { position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' }) {
+function CornerOrnament({
+  position = 'top-left'
+}: {
+  position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
+}) {
   if (!weddingData.fitur.tampilkanOrnamenDaun) return null;
 
   let posStyle = {};
   let transform = '';
-  if (position === 'top-left') { posStyle = { top: 0, left: 0 }; transform = 'scale(1)'; }
-  if (position === 'top-right') { posStyle = { top: 0, right: 0 }; transform = 'scaleX(-1)'; }
-  if (position === 'bottom-left') { posStyle = { bottom: 0, left: 0 }; transform = 'scaleY(-1)'; }
-  if (position === 'bottom-right') { posStyle = { bottom: 0, right: 0 }; transform = 'scale(-1, -1)'; }
+
+  if (position === 'top-left') {
+    posStyle = { top: 0, left: 0 };
+    transform = 'scale(1)';
+  }
+
+  if (position === 'top-right') {
+    posStyle = { top: 0, right: 0 };
+    transform = 'scaleX(-1)';
+  }
+
+  if (position === 'bottom-left') {
+    posStyle = { bottom: 0, left: 0 };
+    transform = 'scaleY(-1)';
+  }
+
+  if (position === 'bottom-right') {
+    posStyle = { bottom: 0, right: 0 };
+    transform = 'scale(-1, -1)';
+  }
 
   return (
-    <div className="absolute opacity-60 pointer-events-none z-10 w-40 md:w-56" style={{ ...posStyle, transform }}>
-      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 0 L 150 0 C 150 0 140 30 110 50 C 80 70 50 40 40 80 C 30 120 40 160 0 200 Z" fill="url(#goldGradient)" />
-        <path d="M 0 0 C 40 0 80 30 100 80 C 120 130 110 180 130 200" stroke="#D2B450" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+    <div
+      className="absolute opacity-40 pointer-events-none z-10 w-28 sm:w-32 md:w-44"
+      style={{
+        ...posStyle,
+        transform
+      }}
+    >
+      <svg
+        viewBox="0 0 200 200"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 0 L 150 0 C 150 0 140 30 110 50 C 80 70 50 40 40 80 C 30 120 40 160 0 200 Z"
+          fill="url(#goldGradient)"
+        />
+
+        <path
+          d="M 0 0 C 40 0 80 30 100 80 C 120 130 110 180 130 200"
+          stroke="#D2B450"
+          strokeWidth="2"
+          fill="none"
+          strokeDasharray="5,5"
+        />
+
         <circle cx="90" cy="50" r="4" fill="#D2B450" />
         <circle cx="60" cy="90" r="3" fill="#D2B450" />
-        <circle cx="120" cy="120" r="2" fill="#D2B450" />
-        <circle cx="30" cy="150" r="3" fill="#D2B450" />
+        <circle cx="120" cy="120" r="2" fill="#808000" />
+        <circle cx="30" cy="150" r="3" fill="#808000" />
+
         <defs>
-          <linearGradient id="goldGradient" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#D2B450" stopOpacity="0.7" />
-            <stop offset="1" stopColor="#808000" stopOpacity="0.08" />
+          <linearGradient
+            id="goldGradient"
+            x1="0"
+            y1="0"
+            x2="200"
+            y2="200"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stopColor="#654321" stopOpacity="0.75" />
+            <stop offset="0.5" stopColor="#808000" stopOpacity="0.45" />
+            <stop offset="1" stopColor="#D2B450" stopOpacity="0" />
           </linearGradient>
         </defs>
       </svg>
     </div>
-  )
+  );
 }
 
 
@@ -207,83 +257,85 @@ function SectionHeading({ sub, title, light = false }: { sub: string; title: str
 
 // 1. Cover / Hero
 function CoverSection({ onOpen }: { onOpen: () => void }) {
-  // Ambil nama tamu dari URL (contoh: ?to=Ilham)
   const searchParams = new URLSearchParams(window.location.search);
   const guestName = searchParams.get('to') || 'Tamu Undangan';
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-black">
-
-  {/* Background Video */}
-  <video
-    autoPlay
-    muted
-    loop
-    playsInline
-    preload="auto"
-    poster={weddingData.galeri.coverImage}
-    className="absolute inset-0 w-full h-full object-cover object-center"
-  >
-    <source src={weddingData.galeri.coverVideo} type="video/mp4" />
-  </video>
-
-  {/* Dark overlay */}
-  <div
-    className="absolute inset-0 bg-black/20"
-    style={{ pointerEvents: 'none' }}
-  />
-      {/* Dark overlay agar teks putih terbaca dengan jelas */}
-      <div className="absolute inset-0 bg-black/75" style={{ pointerEvents: 'none' }} />
+    <section className="relative min-h-[100dvh] flex flex-col justify-between overflow-hidden">
 
       {/* Bagian Atas */}
-      <div className="relative z-10 text-center pt-16 px-6">
+      <div className="relative z-20 text-center pt-16 px-6">
         <div className="animate-fade-up delay-100">
-          <p className="font-accent text-xs tracking-[0.4em] uppercase" style={{ color: '#F4EFE6' }}>
+          <p
+            className="font-accent text-xs tracking-[0.4em] uppercase"
+            style={{ color: '#F4EFE6' }}
+          >
             Undangan Pernikahan
           </p>
         </div>
       </div>
 
       {/* Bagian Bawah */}
-      <div className="relative z-10 text-center pb-42 px-6 mt-auto">
-        
+      <div className="relative z-20 text-center pb-32 px-6 mt-auto">
+
         <div className="animate-fade-up delay-200 mb-6">
-          <p className="font-accent text-sm tracking-[0.3em] uppercase mb-2" style={{ color: '#D2B450' }}>
+          <p
+            className="font-accent text-sm tracking-[0.3em] uppercase mb-2"
+            style={{ color: '#D2B450' }}
+          >
             The Wedding
           </p>
-          <h1 className="font-display text-4xl md:text-5xl italic leading-tight" style={{ color: '#F4EFE6' }}>
-            {weddingData.pria.namaPanggilan} &amp; {weddingData.wanita.namaPanggilan}
+
+          <h1
+            className="font-display text-4xl md:text-5xl italic leading-tight"
+            style={{ color: '#F4EFE6' }}
+          >
+            {weddingData.pria.namaPanggilan}
+            {' '}&amp;{' '}
+            {weddingData.wanita.namaPanggilan}
           </h1>
         </div>
 
         <div className="animate-fade-up delay-300 mb-8">
-          <p className="font-body text-xs tracking-widest uppercase mb-1" style={{ color: 'rgba(244,239,230,0.68)' }}>
+          <p
+            className="font-body text-xs tracking-widest uppercase mb-1"
+            style={{ color: 'rgba(244,239,230,0.65)' }}
+          >
             Kepada Yth,
           </p>
-          <p className="font-display text-xl" style={{ color: '#F4EFE6' }}>
+
+          <p
+            className="font-display text-xl"
+            style={{ color: '#F4EFE6' }}
+          >
             {guestName}
           </p>
         </div>
 
-        {/* CTA */}
         <div className="animate-fade-up delay-400">
           <button
             onClick={onOpen}
             className="inline-flex items-center gap-3 px-8 py-3 rounded-full font-body text-sm tracking-widest uppercase transition-all duration-300"
             style={{
-              background: 'linear-gradient(135deg, #D2B450, #654321)',
+              background: 'linear-gradient(135deg, #D2B450, #9F8430)',
               color: '#000000',
-              boxShadow: '0 4px 20px #D2B45044',
+              boxShadow: '0 4px 25px rgba(210,180,80,0.3)',
+              border: '1px solid rgba(210,180,80,0.6)'
             }}
-            onMouseEnter={e => (e.currentTarget.style.transform = 'translateY(-2px)')}
-            onMouseLeave={e => (e.currentTarget.style.transform = 'translateY(0)')}
+            onMouseEnter={e => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
           >
             Buka Undangan
           </button>
         </div>
+
       </div>
     </section>
-  )
+  );
 }
 
 // 2. Bismillah / Opening Quote
@@ -546,95 +598,589 @@ function EventSection() {
   )
 }
 
+// ══════════════════════════════════════════════════════════════════════════════
+// IMPORTANT NOTE
+// ══════════════════════════════════════════════════════════════════════════════
+
+function ImportantNoteSection() {
+  return (
+    <section
+      className="relative py-20 px-6 overflow-hidden"
+      style={{
+        background: 'linear-gradient(180deg, #000000 0%, #120E0B 100%)'
+      }}
+    >
+      <div className="max-w-xl mx-auto">
+
+        <Reveal>
+          <div className="text-center mb-10">
+            <p
+              className="font-accent text-xs tracking-[0.3em] uppercase mb-2"
+              style={{ color: '#D2B450' }}
+            >
+              Kindly Note
+            </p>
+
+            <h2
+              className="font-display text-3xl md:text-4xl italic"
+              style={{ color: '#F4EFE6' }}
+            >
+              A Little Note
+            </h2>
+
+            <Ornament color="#D2B450" />
+          </div>
+        </Reveal>
+
+        <Reveal delay={100}>
+          <div
+            className="rounded-3xl px-6 py-8 md:px-10 md:py-10 text-center"
+            style={{
+              background:
+                'linear-gradient(145deg, rgba(101,67,33,0.32), rgba(0,0,0,0.65))',
+              border: '1px solid rgba(210,180,80,0.28)',
+              boxShadow: '0 15px 50px rgba(0,0,0,0.25)'
+            }}
+          >
+            <div className="mb-6 flex justify-center">
+              <div
+                className="w-12 h-12 rounded-full flex items-center justify-center"
+                style={{
+                  border: '1px solid rgba(210,180,80,0.5)',
+                  background: 'rgba(210,180,80,0.08)'
+                }}
+              >
+                <span
+                  className="font-display italic text-xl"
+                  style={{ color: '#D2B450' }}
+                >
+                  i
+                </span>
+              </div>
+            </div>
+
+            <p
+              className="font-body text-sm md:text-base leading-7 mb-5"
+              style={{ color: '#D8CEC0' }}
+            >
+              Dengan segala hormat, mengingat keterbatasan kapasitas venue,
+              kami memohon pengertian Bapak/Ibu/Saudara/i untuk menyesuaikan
+              kehadiran dengan undangan yang diterima.
+            </p>
+
+            <div
+              className="w-16 h-px mx-auto my-5"
+              style={{ background: 'rgba(210,180,80,0.35)' }}
+            />
+
+            <p
+              className="font-body text-sm md:text-base leading-7"
+              style={{ color: '#D8CEC0' }}
+            >
+              Perlu kami informasikan bahwa tiket masuk menuju area venue
+              ditanggung secara pribadi oleh masing-masing tamu.
+            </p>
+
+            <p
+              className="font-display italic text-base mt-7"
+              style={{ color: '#D2B450' }}
+            >
+              Terima kasih atas pengertian dan perhatiannya.
+            </p>
+          </div>
+        </Reveal>
+
+      </div>
+    </section>
+  );
+}
+// ══════════════════════════════════════════════════════════════════════════════
+// GUEST GUIDE
+// Dress Code + Do & Don't
+// ══════════════════════════════════════════════════════════════════════════════
+
+function GuestGuideSection() {
+
+  const dressColors = [
+    {
+      name: 'Espresso',
+      hex: '#3B2A22'
+    },
+    {
+      name: 'Mocha',
+      hex: '#6F4E37'
+    },
+    {
+      name: 'Cocoa',
+      hex: '#7B5E4A'
+    },
+    {
+      name: 'Camel',
+      hex: '#B08968'
+    },
+    {
+      name: 'Taupe',
+      hex: '#9A8F83'
+    },
+    {
+      name: 'Sand',
+      hex: '#C2AF8B'
+    },
+    {
+      name: 'Terracotta',
+      hex: '#A85F45'
+    },
+    {
+      name: 'Khaki',
+      hex: '#A79B72'
+    }
+  ];
+
+  const dos = [
+    'Wear our selected Earth Tone palette',
+    'Arrive on time and enjoy the celebration',
+    'Menyesuaikan jumlah kehadiran dengan undangan',
+    'Capture and enjoy your favorite moments'
+  ];
+
+  const donts = [
+    'Avoid Broken White, Mahogany, dan Golden Olive',
+    'Avoid bright or neon colors',
+    'Mohon tidak membawa tamu tambahan di luar undangan',
+    'Mohon tidak menghalangi prosesi maupun fotografer'
+  ];
+
+  return (
+    <section
+      className="relative py-24 px-6 overflow-hidden"
+      style={{ background: '#000000' }}
+    >
+      <div className="max-w-3xl mx-auto">
+
+        {/* TITLE */}
+        <Reveal>
+          <SectionHeading
+            sub="For Our Lovely Guests"
+            title="Guest Guide"
+            light
+          />
+        </Reveal>
+
+
+        {/* ══════════════════════════════════════
+            DRESS CODE
+        ══════════════════════════════════════ */}
+
+        <Reveal delay={100}>
+          <div className="text-center mb-12">
+
+            <p
+              className="font-accent text-xs tracking-[0.3em] uppercase mb-2"
+              style={{ color: '#D2B450' }}
+            >
+              Dress Code
+            </p>
+
+            <h3
+              className="font-display text-2xl md:text-3xl italic mb-4"
+              style={{ color: '#F4EFE6' }}
+            >
+              Earth Tone Attire
+            </h3>
+
+            <p
+              className="font-body text-sm leading-relaxed max-w-lg mx-auto"
+              style={{ color: '#BEB2A5' }}
+            >
+              We’d love to see you in our selected earth tone palette.
+            </p>
+          </div>
+        </Reveal>
+
+
+        {/* COLOR PALETTE */}
+
+        <Reveal delay={150}>
+          <div className="grid grid-cols-4 md:grid-cols-8 gap-x-3 gap-y-8 max-w-2xl mx-auto">
+
+            {dressColors.map((color, index) => (
+              <div
+                key={index}
+                className="flex flex-col items-center text-center"
+              >
+
+                <div
+                  className="w-14 h-14 md:w-16 md:h-16 rounded-full mb-3 transition-transform duration-300 hover:scale-110"
+                  style={{
+                    background: color.hex,
+                    border: '2px solid rgba(210,180,80,0.28)',
+                    boxShadow: '0 5px 20px rgba(0,0,0,0.35)'
+                  }}
+                />
+
+                <p
+                  className="font-accent text-xs tracking-wide"
+                  style={{ color: '#D8CEC0' }}
+                >
+                  {color.name}
+                </p>
+
+              </div>
+            ))}
+
+          </div>
+        </Reveal>
+
+
+        {/* RESERVED COLORS NOTE */}
+
+        <Reveal delay={200}>
+          <div
+            className="max-w-xl mx-auto mt-12 rounded-2xl px-6 py-5 text-center"
+            style={{
+              background: 'rgba(101,67,33,0.18)',
+              border: '1px solid rgba(210,180,80,0.20)'
+            }}
+          >
+
+            <p
+              className="font-accent text-[10px] tracking-[0.25em] uppercase mb-2"
+              style={{ color: '#D2B450' }}
+            >
+              Kindly Avoid
+            </p>
+
+            <p
+              className="font-body text-xs md:text-sm leading-relaxed"
+              style={{ color: '#BEB2A5' }}
+            >
+              Broken White, Mahogany, dan Golden Olive merupakan warna
+              khusus untuk mempelai dan keluarga.
+            </p>
+
+          </div>
+        </Reveal>
+
+
+        {/* DIVIDER */}
+
+        <div className="my-20">
+          <Ornament color="#D2B450" />
+        </div>
+
+
+        {/* ══════════════════════════════════════
+            DO & DON'T
+        ══════════════════════════════════════ */}
+
+        <Reveal>
+          <div className="text-center mb-10">
+
+            <p
+              className="font-accent text-xs tracking-[0.3em] uppercase mb-2"
+              style={{ color: '#D2B450' }}
+            >
+              Little Reminder
+            </p>
+
+            <h3
+              className="font-display text-2xl md:text-3xl italic"
+              style={{ color: '#F4EFE6' }}
+            >
+              Do &amp; Don&apos;t
+            </h3>
+
+          </div>
+        </Reveal>
+
+
+        <div className="grid md:grid-cols-2 gap-5">
+
+          {/* DO */}
+
+          <Reveal delay={100}>
+            <div
+              className="rounded-3xl p-7 h-full"
+              style={{
+                background:
+                  'linear-gradient(145deg, rgba(128,128,0,0.16), rgba(0,0,0,0.7))',
+                border: '1px solid rgba(128,128,0,0.35)'
+              }}
+            >
+
+              <div className="flex items-center gap-3 mb-6">
+
+                <div
+                  className="w-9 h-9 rounded-full flex items-center justify-center"
+                  style={{
+                    background: 'rgba(128,128,0,0.18)',
+                    border: '1px solid rgba(128,128,0,0.55)',
+                    color: '#C5B94B'
+                  }}
+                >
+                  ✓
+                </div>
+
+                <h4
+                  className="font-display text-xl italic"
+                  style={{ color: '#F4EFE6' }}
+                >
+                  Do
+                </h4>
+
+              </div>
+
+
+              <div className="space-y-4">
+
+                {dos.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex gap-3 items-start"
+                  >
+
+                    <span
+                      className="mt-1 text-xs"
+                      style={{ color: '#A6A62B' }}
+                    >
+                      ✦
+                    </span>
+
+                    <p
+                      className="font-body text-sm leading-relaxed"
+                      style={{ color: '#CFC5B9' }}
+                    >
+                      {item}
+                    </p>
+
+                  </div>
+                ))}
+
+              </div>
+
+            </div>
+          </Reveal>
+
+
+          {/* DON'T */}
+
+          <Reveal delay={200}>
+            <div
+              className="rounded-3xl p-7 h-full"
+              style={{
+                background:
+                  'linear-gradient(145deg, rgba(101,67,33,0.28), rgba(0,0,0,0.72))',
+                border: '1px solid rgba(210,180,80,0.25)'
+              }}
+            >
+
+              <div className="flex items-center gap-3 mb-6">
+
+                <div
+                  className="w-9 h-9 rounded-full flex items-center justify-center"
+                  style={{
+                    background: 'rgba(101,67,33,0.3)',
+                    border: '1px solid rgba(210,180,80,0.35)',
+                    color: '#D2B450'
+                  }}
+                >
+                  ×
+                </div>
+
+                <h4
+                  className="font-display text-xl italic"
+                  style={{ color: '#F4EFE6' }}
+                >
+                  Don&apos;t
+                </h4>
+
+              </div>
+
+
+              <div className="space-y-4">
+
+                {donts.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex gap-3 items-start"
+                  >
+
+                    <span
+                      className="mt-1 text-xs"
+                      style={{ color: '#D2B450' }}
+                    >
+                      ✦
+                    </span>
+
+                    <p
+                      className="font-body text-sm leading-relaxed"
+                      style={{ color: '#CFC5B9' }}
+                    >
+                      {item}
+                    </p>
+
+                  </div>
+                ))}
+
+              </div>
+
+            </div>
+          </Reveal>
+
+        </div>
+
+      </div>
+    </section>
+  );
+}
 // 5. Hero Section (Welcome)
 function HeroSection() {
-  const weddingDate = new Date(weddingData.acara.tanggalISO)
-  const { days, hours, minutes, seconds } = useCountdown(weddingDate)
+  const weddingDate = new Date(weddingData.acara.tanggalISO);
+  const { days, hours, minutes, seconds } = useCountdown(weddingDate);
 
-  const Unit = ({ value, label }: { value: number; label: string }) => (
+  const Unit = ({
+    value,
+    label
+  }: {
+    value: number;
+    label: string;
+  }) => (
     <div className="flex flex-col items-center">
       <div
-        className="w-16 h-16 md:w-20 md:h-20 rounded-2xl flex items-center justify-center mb-2"
-        style={{ background: 'linear-gradient(135deg, #D2B45022, #D2B45011)', border: '1px solid rgba(210,180,80,0.3)' }}
+        className="w-16 h-16 md:w-20 md:h-20 rounded-2xl flex items-center justify-center mb-2 backdrop-blur-sm"
+        style={{
+          background: 'rgba(0,0,0,0.55)',
+          border: '1px solid rgba(210,180,80,0.45)',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.25)'
+        }}
       >
-        <span className="font-display text-2xl md:text-3xl" style={{ color: '#F4EFE6' }}>
+        <span
+          className="font-display text-2xl md:text-3xl"
+          style={{ color: '#F4EFE6' }}
+        >
           {String(value).padStart(2, '0')}
         </span>
       </div>
-      <span className="font-accent text-xs tracking-widest uppercase" style={{ color: '#D2B450' }}>{label}</span>
+
+      <span
+        className="font-accent text-xs tracking-widest uppercase"
+        style={{ color: '#D2B450' }}
+      >
+        {label}
+      </span>
     </div>
-  )
+  );
 
   return (
-    <section className="relative min-h-[100dvh] py-10 px-4 flex flex-col items-center justify-center text-center" style={{ background: '#000000' }}>
-      
-      {/* Decorative Top Left */}
-      <CornerOrnament position="top-left" />
+    <section className="relative min-h-[100dvh] py-10 px-4 flex flex-col items-center justify-center text-center overflow-hidden">
 
-      {/* Decorative Top Right */}
+      {/* Ornamen harus langsung relatif terhadap section */}
+      <CornerOrnament position="top-left" />
       <CornerOrnament position="top-right" />
 
-      <Reveal>
-        <p className="font-accent text-xs md:text-sm tracking-[0.2em] uppercase mb-2 md:mb-4 mt-8" style={{ color: '#D2B450' }}>
-          The Wedding Of
-        </p>
-      </Reveal>
+      {/* Seluruh isi Hero */}
+      <div className="relative z-20 w-full flex flex-col items-center justify-center">
 
-      {/* Photo Frame Arch */}
-      <Reveal delay={100} className="w-[180px] md:w-64 mx-auto mb-4 md:mb-6">
-        <div 
-          className="w-full relative overflow-hidden"
-          style={{ 
-            aspectRatio: '3/4', 
-            borderRadius: '150px 150px 16px 16px',
-            border: '2px solid #D2B450',
-            padding: '4px',
-            background: '#000000'
-          }}
+        <Reveal>
+          <p
+            className="font-accent text-xs md:text-sm tracking-[0.2em] uppercase mb-2 md:mb-4 mt-8"
+            style={{ color: '#D2B450' }}
+          >
+            The Wedding Of
+          </p>
+        </Reveal>
+
+        {/* Photo Frame */}
+        <Reveal
+          delay={100}
+          className="w-[180px] md:w-64 mx-auto mb-4 md:mb-6"
         >
-          <div 
-            className="w-full h-full bg-cover bg-center"
-            style={{ 
-              borderRadius: '144px 144px 10px 10px',
-              backgroundImage: `url('${weddingData.galeri.heroImage}')` 
+          <div
+            className="w-full relative overflow-hidden"
+            style={{
+              aspectRatio: '3/4',
+              borderRadius: '150px 150px 16px 16px',
+              border: '2px solid #D2B450',
+              padding: '4px',
+              background: '#000000',
+              boxShadow: '0 15px 40px rgba(0,0,0,0.45)'
             }}
-          />
-          {/* Accent on frame */}
-          <div className="absolute bottom-2 left-1/2 -translate-x-1/2">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-               <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9L12 2Z" fill="#D2B450" opacity="0.8" />
-            </svg>
+          >
+            <div
+              className="w-full h-full bg-cover bg-center"
+              style={{
+                borderRadius: '144px 144px 10px 10px',
+                backgroundImage: `url('${weddingData.galeri.heroImage}')`
+              }}
+            />
+
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9L12 2Z"
+                  fill="#D2B450"
+                  opacity="0.8"
+                />
+              </svg>
+            </div>
           </div>
-        </div>
-      </Reveal>
+        </Reveal>
 
-      <Reveal delay={200}>
-        <h1 className="font-display text-4xl md:text-6xl italic leading-tight mb-1" style={{ color: '#F4EFE6' }}>
-          {weddingData.pria.namaPanggilan} <span className="text-2xl md:text-3xl">&amp;</span> {weddingData.wanita.namaPanggilan}
-        </h1>
-        <p className="font-body text-xs md:text-sm tracking-widest uppercase mt-2 mb-6" style={{ color: '#D8CEC0' }}>
-          {weddingData.acara.teksTanggal}
-        </p>
-      </Reveal>
+        <Reveal delay={200}>
+          <h1
+            className="font-display text-4xl md:text-6xl italic leading-tight mb-1"
+            style={{ color: '#F4EFE6' }}
+          >
+            {weddingData.pria.namaPanggilan}
+            <span
+              className="text-2xl md:text-3xl"
+              style={{ color: '#D2B450' }}
+            >
+              {' '}&amp;{' '}
+            </span>
+            {weddingData.wanita.namaPanggilan}
+          </h1>
 
-      <Reveal delay={300} className="w-full max-w-lg z-10">
-        <div className="flex justify-center gap-3 md:gap-4 flex-wrap">
-          <Unit value={days} label="Hari" />
-          <Unit value={hours} label="Jam" />
-          <Unit value={minutes} label="Menit" />
-          <Unit value={seconds} label="Detik" />
-        </div>
-      </Reveal>
+          <p
+            className="font-body text-xs md:text-sm tracking-widest uppercase mt-2 mb-6"
+            style={{ color: '#D8CEC0' }}
+          >
+            {weddingData.acara.teksTanggal}
+          </p>
+        </Reveal>
 
-      {/* Bounce scroll hint */}
-      <Reveal delay={400} className="mt-8 mb-4 animate-bounce">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D2B450" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <polyline points="6 9 12 15 18 9"></polyline>
-        </svg>
-      </Reveal>
+        <Reveal delay={300} className="w-full max-w-lg z-20">
+          <div className="flex justify-center gap-3 md:gap-4 flex-wrap">
+            <Unit value={days} label="Hari" />
+            <Unit value={hours} label="Jam" />
+            <Unit value={minutes} label="Menit" />
+            <Unit value={seconds} label="Detik" />
+          </div>
+        </Reveal>
 
+        <Reveal delay={400} className="mt-8 mb-4 animate-bounce">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#D2B450"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </Reveal>
+
+      </div>
     </section>
-  )
+  );
 }
 
 // 6. Gallery
@@ -677,47 +1223,7 @@ function GallerySection() {
   )
 }
 
-// 7. Love Story
-function LoveStorySection() {
 
-
-  return (
-    <section className="py-20 px-6" style={{ background: '#000000' }}>
-      <div className="max-w-lg mx-auto">
-        <Reveal>
-          <SectionHeading sub="Perjalanan Kami" title="Cerita Cinta" />
-        </Reveal>
-
-        <div className="relative">
-          {/* vertical line */}
-          <div
-            className="absolute left-5 top-0 bottom-0 w-px"
-            style={{ background: 'linear-gradient(to bottom, transparent, #D2B45088, transparent)' }}
-          />
-
-          <div className="space-y-10 pl-14">
-            {weddingData.ceritaCinta.map((e, i) => (
-              <Reveal key={i} delay={i * 100}>
-                <div className="relative">
-                  {/* dot */}
-                  <div
-                    className="absolute -left-9 top-1 w-4 h-4 rounded-full flex items-center justify-center"
-                    style={{ background: '#000000', border: '2px solid #D2B450' }}
-                  >
-                    <div className="w-2 h-2 rounded-full" style={{ background: '#D2B450' }} />
-                  </div>
-                  <p className="font-accent text-xs tracking-widest uppercase mb-1" style={{ color: '#D2B450' }}>{e.tahun}</p>
-                  <h4 className="font-display text-lg italic mb-1" style={{ color: '#F4EFE6' }}>{e.judul}</h4>
-                  <p className="font-body text-sm leading-relaxed" style={{ color: '#D8CEC0' }}>{e.cerita}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
 
 
 
@@ -1089,28 +1595,105 @@ function AudioPlayer() {
 }
 
 export default function App() {
-  const [opened, setOpened] = useState(false)
-
-  if (!opened) {
-    return <CoverSection onOpen={() => setOpened(true)} />
-  }
+  const [opened, setOpened] = useState(false);
 
   return (
-    <>
-      <main className="overflow-x-hidden relative">
-      <AbstractLines />
-      <Sparkles />
-      <HeroSection />
-      {weddingData.fitur.tampilkanBismillah && <BismillahSection />}
-      {weddingData.fitur.tampilkanMempelai && <CoupleSection />}
-      {weddingData.fitur.tampilkanAcara && <EventSection />}
-      {weddingData.fitur.tampilkanGaleri && <GallerySection />}
-      {weddingData.fitur.tampilkanCeritaCinta && <LoveStorySection />}
-      {weddingData.fitur.tampilkanRSVP && <RsvpAndWishesSection />}
-      {weddingData.fitur.tampilkanHadiah && <GiftSection />}
-      <ClosingSection />
-    </main>
-      <AudioPlayer />
-    </>
-  )
+    <div className="relative bg-black">
+
+      {/* 
+        VIDEO HANYA DIBUAT SEKALI.
+        Karena berada di luar kondisi opened,
+        video tidak restart saat tombol Buka Undangan ditekan.
+      */}
+      <div className="fixed inset-0 z-0 bg-black pointer-events-none">
+
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster={weddingData.galeri.coverImage}
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        >
+          <source
+            src={weddingData.galeri.coverVideo}
+            type="video/mp4"
+          />
+        </video>
+
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/50" />
+
+      </div>
+
+      {/* BEFORE OPEN */}
+      {!opened ? (
+        <div className="relative z-10">
+          <CoverSection
+            onOpen={() => setOpened(true)}
+          />
+        </div>
+      ) : (
+        <>
+          {/* AFTER OPEN */}
+          <main className="relative z-10 overflow-x-hidden">
+
+  <AbstractLines />
+  <Sparkles />
+
+  {/* 1. Hero + Countdown */}
+  <HeroSection />
+
+  {/* 2. Doa */}
+  {weddingData.fitur.tampilkanBismillah && (
+    <BismillahSection />
+  )}
+
+  {/* 3. Mempelai */}
+  {weddingData.fitur.tampilkanMempelai && (
+    <CoupleSection />
+  )}
+
+  {/* 4. Rangkaian Acara */}
+  {weddingData.fitur.tampilkanAcara && (
+    <EventSection />
+  )}
+
+  {/* 5. Important Note */}
+  <ImportantNoteSection />
+
+  {/* 6. Guest Guide:
+         Dress Code + Do & Don't
+  */}
+  <GuestGuideSection />
+
+  {/* 7. Galeri */}
+  {weddingData.fitur.tampilkanGaleri && (
+    <GallerySection />
+  )}
+
+  {/* LOVE STORY DIHAPUS */}
+
+  {/* 8. RSVP & Wishes */}
+  {weddingData.fitur.tampilkanRSVP && (
+    <RsvpAndWishesSection />
+  )}
+
+  {/* 9. Amplop Digital */}
+  {weddingData.fitur.tampilkanHadiah && (
+    <GiftSection />
+  )}
+
+  {/* 10. Terima Kasih */}
+  <ClosingSection />
+
+</main>
+
+          <AudioPlayer />
+        </>
+      )}
+
+    </div>
+  );
 }
