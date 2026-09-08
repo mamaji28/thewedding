@@ -99,6 +99,6 @@ export const weddingData = {
     tampilkanGarisAbstrak: true,
   },
 
-  // 6. Musik Latar
-  musik: "assets/song/Magnolia.mp3"
+ // 6. Musik Latar
+musik: "/Magnolia.mp3"
 };
