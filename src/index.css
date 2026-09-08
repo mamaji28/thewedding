@@ -6,15 +6,15 @@
   --font-body: 'Lora', Georgia, serif;
   --font-accent: 'Cormorant Garamond', Georgia, serif;
 
-  --color-ivory: #faf7f2;
-  --color-cream: #f5efe6;
-  --color-rose: #c9a0a0;
-  --color-rose-dark: #a67070;
-  --color-gold: #c4a35a;
-  --color-gold-light: #e8d5a3;
-  --color-sage: #a8b5a0;
-  --color-brown: #6b4f3a;
-  --color-dark: #2d2420;
+  --color-ivory: #000000;
+  --color-cream: #120c08;
+  --color-rose: #808000;
+  --color-rose-dark: #654321;
+  --color-gold: #D2B450;
+  --color-gold-light: #D2B450;
+  --color-sage: #808000;
+  --color-brown: #654321;
+  --color-dark: #000000;
 }
 
 html {
@@ -22,15 +22,15 @@ html {
 }
 
 body {
-  background-color: #faf7f2;
+  background-color: #000000;
   font-family: 'Lora', Georgia, serif;
-  color: #2d2420;
+  color: #F4EFE6;
 }
 
 /* Hide scrollbar by default */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #c4a35a44; border-radius: 2px; }
+::-webkit-scrollbar-thumb { background: #D2B45055; border-radius: 2px; }
 
 .font-display { font-family: 'Playfair Display', Georgia, serif; }
 .font-body { font-family: 'Lora', Georgia, serif; }
@@ -107,3 +107,29 @@ body {
 .flow-delay-3 { animation-delay: 4s; animation-duration: 10s; }
 .flow-delay-4 { animation-delay: 1s; animation-duration: 9s; }
 .flow-delay-5 { animation-delay: 5s; animation-duration: 15s; }
+
+
+/* Dark wedding palette: Black / Brown Bark / Old Gold / Olive */
+:root {
+  color-scheme: dark;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(101, 67, 33, 0.16), transparent 28%),
+    radial-gradient(circle at 85% 90%, rgba(128, 128, 0, 0.07), transparent 26%),
+    #000000;
+}
+
+::selection {
+  background: #D2B450;
+  color: #000000;
+}
+
+input,
+textarea,
+select,
+button {
+  color-scheme: dark;
+}
