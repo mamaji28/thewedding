@@ -1,15 +1,26 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { push, ref as dbRef, serverTimestamp, set, update } from 'firebase/database'
-import { getDownloadURL, ref as storageRef, uploadBytes } from 'firebase/storage'
-import { cameraDb, cameraStorage } from './cameraFirebase'
+import { cameraDb } from './cameraFirebase'
+import { supabase } from './supabase'
 
 const MAX_SHOTS = 18
+const MAX_IMAGE_SIDE = 1280
+const JPEG_QUALITY = 0.72
+const UPLOAD_TIMEOUT_MS = 20000
+
 const LS_GUEST_ID = 'wedding_camera_guest_id'
 const LS_GUEST_NAME = 'wedding_camera_guest_name'
 const LS_SHOTS_USED = 'wedding_camera_shots_used'
 
 type FacingMode = 'user' | 'environment'
-type CameraStatus = 'intro' | 'opening' | 'ready' | 'uploading' | 'error' | 'done'
+type CameraStatus =
+  | 'intro'
+  | 'opening'
+  | 'ready'
+  | 'processing'
+  | 'uploading'
+  | 'error'
+  | 'done'
 
 function makeGuestId() {
   if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
@@ -21,6 +32,7 @@ function makeGuestId() {
 function getOrCreateGuestId() {
   const stored = localStorage.getItem(LS_GUEST_ID)
   if (stored) return stored
+
   const created = makeGuestId()
   localStorage.setItem(LS_GUEST_ID, created)
   return created
@@ -28,16 +40,54 @@ function getOrCreateGuestId() {
 
 function getShotsUsed() {
   const value = Number(localStorage.getItem(LS_SHOTS_USED) || '0')
-  return Number.isFinite(value) ? Math.min(Math.max(value, 0), MAX_SHOTS) : 0
+  return Number.isFinite(value)
+    ? Math.min(Math.max(value, 0), MAX_SHOTS)
+    : 0
 }
 
-function dataUrlToBlob(dataUrl: string) {
-  const [header, encoded] = dataUrl.split(',')
-  const mime = header.match(/data:(.*?);/)?.[1] || 'image/jpeg'
-  const binary = atob(encoded)
-  const bytes = new Uint8Array(binary.length)
-  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i)
-  return new Blob([bytes], { type: mime })
+function canvasToBlob(
+  canvas: HTMLCanvasElement,
+  quality = JPEG_QUALITY
+): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    canvas.toBlob(
+      blob => {
+        if (!blob) {
+          reject(new Error('Gagal memproses foto'))
+          return
+        }
+        resolve(blob)
+      },
+      'image/jpeg',
+      quality
+    )
+  })
+}
+
+function getResizedDimensions(width: number, height: number) {
+  const largest = Math.max(width, height)
+
+  if (largest <= MAX_IMAGE_SIDE) {
+    return { width, height }
+  }
+
+  const scale = MAX_IMAGE_SIDE / largest
+
+  return {
+    width: Math.round(width * scale),
+    height: Math.round(height * scale),
+  }
+}
+
+function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<T>((_, reject) => {
+      window.setTimeout(() => {
+        reject(new Error('Upload terlalu lama. Silakan coba lagi.'))
+      }, timeoutMs)
+    }),
+  ])
 }
 
 export default function WeddingCamera() {
@@ -47,14 +97,16 @@ export default function WeddingCamera() {
 
   const [status, setStatus] = useState<CameraStatus>('intro')
   const [facingMode, setFacingMode] = useState<FacingMode>('environment')
-  const [guestName, setGuestName] = useState(() => {
-    const invitedName = new URLSearchParams(window.location.search).get('to') || ''
-    return localStorage.getItem(LS_GUEST_NAME) || invitedName
-  })
+
+  const [guestName, setGuestName] = useState(
+    () => localStorage.getItem(LS_GUEST_NAME) || ''
+  )
+
   const [shotsUsed, setShotsUsed] = useState(getShotsUsed)
   const [message, setMessage] = useState('')
   const [flash, setFlash] = useState(false)
   const [preview, setPreview] = useState<string | null>(null)
+  const [uploadProgress, setUploadProgress] = useState(0)
 
   const shotsLeft = MAX_SHOTS - shotsUsed
   const guestId = useMemo(() => getOrCreateGuestId(), [])
@@ -72,9 +124,16 @@ export default function WeddingCamera() {
 
     setStatus('opening')
     setMessage('')
+    setPreview(null)
 
     try {
       stopCamera()
+
+      if (!navigator.mediaDevices?.getUserMedia) {
+        throw new Error(
+          'Browser ini tidak mendukung kamera. Gunakan Chrome/Safari terbaru melalui HTTPS.'
+        )
+      }
 
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
@@ -96,7 +155,9 @@ export default function WeddingCamera() {
     } catch (error) {
       console.error(error)
       setMessage(
-        'Kamera tidak dapat dibuka. Pastikan izin kamera di browser sudah diaktifkan, lalu coba lagi.'
+        error instanceof Error
+          ? error.message
+          : 'Kamera tidak dapat dibuka. Pastikan izin kamera sudah diaktifkan.'
       )
       setStatus('error')
     }
@@ -108,21 +169,33 @@ export default function WeddingCamera() {
 
   const start = async () => {
     const cleanName = guestName.trim()
-    if (cleanName) localStorage.setItem(LS_GUEST_NAME, cleanName)
 
-    await set(dbRef(cameraDb, `weddingCameraGuests/${guestId}`), {
-      guestId,
-      name: cleanName || null,
-      firstOpenedAt: serverTimestamp(),
-      shotsUsed,
-      shotsRemaining: MAX_SHOTS - shotsUsed,
-    }).catch(console.error)
+    if (cleanName) {
+      localStorage.setItem(LS_GUEST_NAME, cleanName)
+    }
+
+    try {
+      await set(dbRef(cameraDb, `weddingCameraGuests/${guestId}`), {
+        guestId,
+        name: cleanName || null,
+        firstOpenedAt: serverTimestamp(),
+        shotsUsed,
+        shotsRemaining: MAX_SHOTS - shotsUsed,
+      })
+    } catch (error) {
+      console.error('Gagal menyimpan guest metadata:', error)
+      // Kamera tetap boleh dibuka walaupun metadata guest sementara gagal.
+    }
 
     await openCamera()
   }
 
   const switchCamera = async () => {
-    const next: FacingMode = facingMode === 'environment' ? 'user' : 'environment'
+    if (status !== 'ready') return
+
+    const next: FacingMode =
+      facingMode === 'environment' ? 'user' : 'environment'
+
     setFacingMode(next)
     await openCamera(next)
   }
@@ -141,92 +214,164 @@ export default function WeddingCamera() {
     setFlash(true)
     window.setTimeout(() => setFlash(false), 130)
 
-    canvas.width = video.videoWidth
-    canvas.height = video.videoHeight
-
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-
-    // Mirror only the selfie camera so the saved image matches the preview.
-    if (facingMode === 'user') {
-      ctx.translate(canvas.width, 0)
-      ctx.scale(-1, 1)
-    }
-
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
-
-    const dataUrl = canvas.toDataURL('image/jpeg', 0.84)
-    setPreview(dataUrl)
-    setStatus('uploading')
-    setMessage('Menyimpan foto…')
-
     try {
-      const blob = dataUrlToBlob(dataUrl)
-      const photoKey = push(dbRef(cameraDb, 'weddingCameraPhotos')).key
-      if (!photoKey) throw new Error('Tidak bisa membuat ID foto')
+      setStatus('processing')
+      setMessage('Memproses foto…')
+      setUploadProgress(15)
 
-      const filePath = `wedding-camera/${guestId}/${photoKey}.jpg`
-      const fileRef = storageRef(cameraStorage, filePath)
+      const sourceWidth = video.videoWidth
+      const sourceHeight = video.videoHeight
+      const resized = getResizedDimensions(sourceWidth, sourceHeight)
 
-      await uploadBytes(fileRef, blob, {
-        contentType: 'image/jpeg',
-        customMetadata: {
-          guestId,
-          guestName: guestName.trim(),
-        },
-      })
+      canvas.width = resized.width
+      canvas.height = resized.height
 
-      const imageUrl = await getDownloadURL(fileRef)
+      const ctx = canvas.getContext('2d')
+
+      if (!ctx) {
+        throw new Error('Tidak dapat memproses foto')
+      }
+
+      ctx.save()
+
+      // Preview selfie dibuat mirror; hasil file juga dibuat sama dengan preview.
+      if (facingMode === 'user') {
+        ctx.translate(canvas.width, 0)
+        ctx.scale(-1, 1)
+      }
+
+      ctx.drawImage(
+        video,
+        0,
+        0,
+        sourceWidth,
+        sourceHeight,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      )
+
+      ctx.restore()
+
+      const previewUrl = canvas.toDataURL('image/jpeg', 0.55)
+      setPreview(previewUrl)
+
+      const blob = await canvasToBlob(canvas)
+
+      setStatus('uploading')
+      setMessage('Menyimpan foto…')
+      setUploadProgress(40)
+
+      const firebasePhotoKey = push(
+        dbRef(cameraDb, 'weddingCameraPhotos')
+      ).key
+
+      if (!firebasePhotoKey) {
+        throw new Error('Tidak dapat membuat ID foto')
+      }
+
+      const fileName = `${firebasePhotoKey}.jpg`
+      const storagePath = `${guestId}/${fileName}`
+
+      const uploadPromise = supabase.storage
+        .from('wedding-camera')
+        .upload(storagePath, blob, {
+          contentType: 'image/jpeg',
+          cacheControl: '3600',
+          upsert: false,
+        })
+
+      const uploadResult = await withTimeout(
+        uploadPromise,
+        UPLOAD_TIMEOUT_MS
+      )
+
+      if (uploadResult.error) {
+        throw uploadResult.error
+      }
+
+      setUploadProgress(75)
+
+      const { data: publicUrlData } = supabase.storage
+        .from('wedding-camera')
+        .getPublicUrl(storagePath)
+
+      const imageUrl = publicUrlData.publicUrl
+
+      if (!imageUrl) {
+        throw new Error('URL foto tidak tersedia')
+      }
+
       const nextShotsUsed = shotsUsed + 1
 
-      await set(dbRef(cameraDb, `weddingCameraPhotos/${photoKey}`), {
-        id: photoKey,
-        guestId,
-        guestName: guestName.trim() || null,
-        imageUrl,
-        storagePath: filePath,
-        capturedAt: serverTimestamp(),
-        hidden: false,
-        favorite: false,
-      })
+      await set(
+        dbRef(cameraDb, `weddingCameraPhotos/${firebasePhotoKey}`),
+        {
+          id: firebasePhotoKey,
+          guestId,
+          guestName: guestName.trim() || null,
+          imageUrl,
+          storageProvider: 'supabase',
+          storageBucket: 'wedding-camera',
+          storagePath,
+          fileName,
+          capturedAt: serverTimestamp(),
+          hidden: false,
+          favorite: false,
+        }
+      )
 
-      await update(dbRef(cameraDb, `weddingCameraGuests/${guestId}`), {
-        name: guestName.trim() || null,
-        lastCapturedAt: serverTimestamp(),
-        shotsUsed: nextShotsUsed,
-        shotsRemaining: MAX_SHOTS - nextShotsUsed,
-      })
+      setUploadProgress(90)
+
+      await update(
+        dbRef(cameraDb, `weddingCameraGuests/${guestId}`),
+        {
+          name: guestName.trim() || null,
+          lastCapturedAt: serverTimestamp(),
+          shotsUsed: nextShotsUsed,
+          shotsRemaining: MAX_SHOTS - nextShotsUsed,
+        }
+      )
 
       localStorage.setItem(LS_SHOTS_USED, String(nextShotsUsed))
       setShotsUsed(nextShotsUsed)
+
+      setUploadProgress(100)
       setMessage('Foto tersimpan ♡')
 
       if (nextShotsUsed >= MAX_SHOTS) {
-        setStatus('done')
-        stopCamera()
+        window.setTimeout(() => {
+          setStatus('done')
+          stopCamera()
+        }, 700)
       } else {
         window.setTimeout(() => {
           setPreview(null)
           setMessage('')
+          setUploadProgress(0)
           setStatus('ready')
-        }, 1100)
+        }, 900)
       }
     } catch (error) {
-      console.error(error)
-      setMessage('Foto belum tersimpan. Periksa koneksi internet lalu tekan “Coba Simpan Lagi”.')
+      console.error('Wedding Camera upload error:', error)
+
+      setUploadProgress(0)
+
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : 'Foto belum tersimpan. Periksa koneksi internet lalu coba lagi.'
+
+      setMessage(errorMessage)
       setStatus('error')
     }
   }
 
-  const retryUpload = async () => {
-    if (!preview) {
-      await openCamera()
-      return
-    }
-
-    // Re-capture is safer than silently losing the photo.
+  const retry = async () => {
     setPreview(null)
-    setMessage('Silakan ambil ulang foto.')
+    setUploadProgress(0)
+    setMessage('')
     await openCamera()
   }
 
@@ -234,18 +379,27 @@ export default function WeddingCamera() {
     return (
       <main className="wc-intro">
         <div className="wc-grain" />
+
         <div className="wc-intro-card">
           <p className="wc-kicker">THE WEDDING CAMERA</p>
           <div className="wc-line" />
-          <h1>Capture<br />Our Day</h1>
+
+          <h1>
+            Capture
+            <br />
+            Our Day
+          </h1>
+
           <p className="wc-copy">
             Bantu kami mengabadikan hari ini dari sudut pandangmu.
-            Setiap perangkat mendapat hingga <strong>{MAX_SHOTS} foto</strong>.
+            Setiap perangkat mendapat hingga{' '}
+            <strong>{MAX_SHOTS} foto</strong>.
           </p>
 
           <label className="wc-name-label" htmlFor="guest-name">
             Nama <span>(opsional)</span>
           </label>
+
           <input
             id="guest-name"
             className="wc-name-input"
@@ -259,6 +413,7 @@ export default function WeddingCamera() {
           <button className="wc-primary" onClick={start}>
             Buka Kamera
           </button>
+
           <p className="wc-small">Tidak perlu download aplikasi.</p>
         </div>
       </main>
@@ -269,21 +424,35 @@ export default function WeddingCamera() {
     return (
       <main className="wc-intro">
         <div className="wc-grain" />
+
         <div className="wc-intro-card">
           <p className="wc-kicker">FILM ROLL COMPLETE</p>
           <div className="wc-line" />
+
           <h1>Thank You</h1>
+
           <p className="wc-copy">
-            Kamu sudah menggunakan seluruh {MAX_SHOTS} frame. Terima kasih sudah
-            ikut mengabadikan hari kami ♡
+            Kamu sudah menggunakan seluruh {MAX_SHOTS} frame.
+            Terima kasih sudah ikut mengabadikan hari kami ♡
           </p>
-          <button className="wc-secondary" onClick={() => window.location.href = '/'}>
+
+          <button
+            className="wc-secondary"
+            onClick={() => {
+              window.location.href = '/'
+            }}
+          >
             Kembali ke Undangan
           </button>
         </div>
       </main>
     )
   }
+
+  const isBusy =
+    status === 'opening' ||
+    status === 'processing' ||
+    status === 'uploading'
 
   return (
     <main className="wc-camera-page">
@@ -294,6 +463,7 @@ export default function WeddingCamera() {
           <p className="wc-camera-label">OUR WEDDING</p>
           <p className="wc-camera-sub">Disposable Camera</p>
         </div>
+
         <div className="wc-counter">
           <strong>{shotsLeft}</strong>
           <span>foto tersisa</span>
@@ -303,27 +473,77 @@ export default function WeddingCamera() {
       <section className="wc-viewfinder">
         <video
           ref={videoRef}
-          className={`wc-video ${facingMode === 'user' ? 'is-selfie' : ''}`}
+          className={`wc-video ${
+            facingMode === 'user' ? 'is-selfie' : ''
+          }`}
           autoPlay
           playsInline
           muted
         />
 
         {preview && (
-          <img className="wc-preview" src={preview} alt="Foto yang baru diambil" />
+          <img
+            className="wc-preview"
+            src={preview}
+            alt="Foto yang baru diambil"
+          />
         )}
 
-        {(status === 'opening' || status === 'uploading') && (
+        {isBusy && (
           <div className="wc-status">
             <div className="wc-spinner" />
-            <span>{status === 'opening' ? 'Membuka kamera…' : message}</span>
+
+            <span>
+              {status === 'opening'
+                ? 'Membuka kamera…'
+                : message}
+            </span>
+
+            {status === 'uploading' && (
+              <div
+                style={{
+                  width: 'min(240px, 75vw)',
+                  marginTop: 4,
+                }}
+              >
+                <div
+                  style={{
+                    width: '100%',
+                    height: 4,
+                    background: 'rgba(255,255,255,.14)',
+                    overflow: 'hidden',
+                    borderRadius: 999,
+                  }}
+                >
+                  <div
+                    style={{
+                      height: '100%',
+                      width: `${uploadProgress}%`,
+                      background: '#c4a35a',
+                      transition: 'width .25s ease',
+                    }}
+                  />
+                </div>
+
+                <div
+                  style={{
+                    marginTop: 7,
+                    fontSize: 10,
+                    letterSpacing: '.12em',
+                    opacity: .65,
+                  }}
+                >
+                  {uploadProgress}%
+                </div>
+              </div>
+            )}
           </div>
         )}
 
         {status === 'error' && (
           <div className="wc-status wc-status-error">
             <p>{message}</p>
-            <button onClick={retryUpload}>Coba Lagi</button>
+            <button onClick={retry}>Coba Lagi</button>
           </div>
         )}
 
