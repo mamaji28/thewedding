@@ -737,17 +737,18 @@ function GuestGuideSection() {
   ];
 
   const dos = [
-    'Wear our selected Earth Tone palette',
-    'Arrive on time and enjoy the celebration',
+    'Konfirmasi kehadiran (RSVP)',
+    'Hadir tepat waktu',
     'Menyesuaikan jumlah kehadiran dengan undangan',
+    'Menyesuaikan diri di lokasi acara',
     'Capture and enjoy your favorite moments'
   ];
 
   const donts = [
-    'Avoid Broken White, Mahogany, dan Golden Olive',
-    'Avoid bright or neon colors',
+    'Hindari pakaian berwarna Broken White, Mahogany, dan Golden Olive',
     'Mohon tidak membawa tamu tambahan di luar undangan',
-    'Mohon tidak menghalangi prosesi maupun fotografer'
+    'Mohon tidak menghalangi prosesi maupun fotografer',
+    'Mohon tidak membawa anabul, hehe'
   ];
 
   return (
