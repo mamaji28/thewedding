@@ -101,7 +101,10 @@ export const weddingData = {
     tampilkanOrnamenDaun: true,
     tampilkanGarisAbstrak: true,
   },
-
- // 6. Musik Latar
-musik: "/Magnolia.mp3"
+// 6. Musik Latar
+musik: "/Laufey.mp3",
+musikInfo: {
+  judul: "Valentine",
+  penyanyi: "Laufey"
+}
 };

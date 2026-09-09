@@ -149,6 +149,9 @@ import { useState, useEffect, useRef } from 'react'
 import { ref, push, onValue, serverTimestamp } from 'firebase/database';
 import { db } from './firebase';
 import { weddingData } from './config';
+import WeddingCamera from './camera/WeddingCamera';
+import WeddingCameraButton from './camera/WeddingCameraButton';
+import './camera/wedding-camera.css';
 
 
 // ── Countdown hook ──────────────────────────────────────────────────────────
@@ -571,8 +574,8 @@ function EventSection() {
                   <path d="M4 13h24" stroke="#808000" strokeWidth="1" opacity="0.6" />
                   <path d="M10 4v4M22 4v4" stroke="#808000" strokeWidth="1.5" strokeLinecap="round" />
                 </svg>
-                <p className="font-accent text-xs tracking-[0.3em] uppercase mb-1" style={{ color: '#808000' }}>Resepsi</p>
-                <h3 className="font-display text-xl italic" style={{ color: '#F4EFE6' }}>Pesta Pernikahan</h3>
+                <p className="font-accent text-xs tracking-[0.3em] uppercase mb-1" style={{ color: '#808000' }}>Tasyakuran</p>
+                <h3 className="font-display text-xl italic" style={{ color: '#F4EFE6' }}>Tasyakuran Pernikahan</h3>
               </div>
               <Ornament color="#808000" />
               <div className="space-y-2">
@@ -1184,7 +1187,37 @@ function HeroSection() {
   );
 }
 
-// 6. Gallery
+// 6. Wedding Camera
+function WeddingCameraSection() {
+  return (
+    <section
+      className="py-20 px-6 text-center relative overflow-hidden"
+      style={{ background: 'linear-gradient(180deg, #000000 0%, #120c08 100%)' }}
+    >
+      <div className="max-w-lg mx-auto">
+        <Reveal>
+          <SectionHeading sub="From Your Point of View" title="Wedding Camera" light />
+          <p
+            className="font-body text-sm leading-relaxed mb-7"
+            style={{ color: '#D8CEC0' }}
+          >
+            Abadikan momen favoritmu di hari pernikahan kami. Setiap perangkat
+            mendapat hingga 18 foto dan hasilnya akan masuk ke album bersama.
+          </p>
+          <WeddingCameraButton />
+          <p
+            className="font-accent text-[10px] tracking-widest uppercase mt-4"
+            style={{ color: 'rgba(244,239,230,0.45)' }}
+          >
+            No app needed · Camera access required
+          </p>
+        </Reveal>
+      </div>
+    </section>
+  )
+}
+
+// 7. Gallery
 function GallerySection() {
   const photos = [
     { aspect: 'square' },
@@ -1525,8 +1558,11 @@ function ClosingSection() {
       </div>
 
       <Reveal delay={200} className="mt-16">
-        <p className="font-accent text-xs" style={{ color: 'rgba(255,255,255,0.2)' }}>
+        <p className="font-accent text-xs" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>
           Made with ♥ — The Wedding of {weddingData.pria.namaPanggilan} & {weddingData.wanita.namaPanggilan}
+        </p>
+        <p className="font-accent text-xs" style={{ color: 'rgba(255, 255, 255, 0.48)' }}>
+          Thanks to Muhammad Ilham Pratama for the support
         </p>
       </Reveal>
     </section>
@@ -1541,61 +1577,142 @@ function ClosingSection() {
 // AUDIO PLAYER
 // ══════════════════════════════════════════════════════════════════════════════
 function AudioPlayer() {
-  const [isPlaying, setIsPlaying] = useState(true)
-  const audioRef = useRef<HTMLAudioElement>(null)
+  const [isPlaying, setIsPlaying] = useState(true);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
-  // Start playing automatically when component mounts (after Cover is opened)
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.play().catch(e => console.log("Auto-play prevented by browser", e))
+      audioRef.current
+        .play()
+        .catch(e => console.log("Auto-play prevented by browser", e));
     }
-  }, [])
+  }, []);
 
   const togglePlay = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause()
-      } else {
-        audioRef.current.play()
-      }
-      setIsPlaying(!isPlaying)
-    }
-  }
+    if (!audioRef.current) return;
 
-  if (!weddingData.musik) return null
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      audioRef.current.play();
+      setIsPlaying(true);
+    }
+  };
+
+  if (!weddingData.musik) return null;
 
   return (
     <>
-      <audio ref={audioRef} src={weddingData.musik} loop />
-      <button
-        onClick={togglePlay}
-        className="fixed bottom-6 right-6 w-12 h-12 rounded-full flex items-center justify-center z-50 shadow-xl transition-transform hover:scale-110"
-        style={{ background: '#000000', border: '2px solid #D2B450' }}
-        aria-label="Toggle Music"
-      >
-        {/* Piringan Hitam Icon */}
-        <div className={`w-8 h-8 rounded-full border border-gray-700 flex items-center justify-center ${isPlaying ? 'animate-[spin_4s_linear_infinite]' : ''}`} style={{ background: '#000' }}>
-          {/* Inner circle */}
-          <div className="w-3 h-3 rounded-full" style={{ background: '#D2B450' }}>
-            <div className="w-1 h-1 rounded-full bg-black mx-auto mt-1" />
+      <audio
+        ref={audioRef}
+        src={weddingData.musik}
+        loop
+      />
+
+      {/* Music Player Container */}
+      <div className="fixed bottom-6 right-6 z-50 flex items-center">
+
+        {/* Music Info */}
+        <div
+          className="absolute right-14 flex items-center overflow-hidden transition-all duration-500 ease-out"
+          style={{
+            opacity: isPlaying ? 1 : 0,
+            transform: isPlaying
+              ? "translateX(0)"
+              : "translateX(20px)",
+            pointerEvents: "none"
+          }}
+        >
+          <div
+            className="min-w-[150px] max-w-[190px] py-2.5 pl-4 pr-5 rounded-l-full"
+            style={{
+              background:
+                "linear-gradient(90deg, rgba(0,0,0,0.92), rgba(101,67,33,0.85))",
+              borderTop: "1px solid rgba(210,180,80,0.4)",
+              borderBottom: "1px solid rgba(210,180,80,0.4)",
+              borderLeft: "1px solid rgba(210,180,80,0.4)",
+              boxShadow: "none",
+              backdropFilter: "blur(8px)"
+            }}
+          >
+            <p
+              className="font-display text-sm italic truncate leading-tight"
+              style={{ color: "#F4EFE6" }}
+            >
+              {weddingData.musikInfo?.judul || "Magnolia"}
+            </p>
+
+            <p
+              className="font-accent text-[10px] tracking-[0.15em] uppercase truncate mt-1"
+              style={{ color: "#D2B450" }}
+            >
+              {weddingData.musikInfo?.penyanyi || "Artist"}
+            </p>
           </div>
-          {/* Grooves */}
-          <div className="absolute inset-1 rounded-full border border-gray-700 opacity-50" />
-          <div className="absolute inset-2 rounded-full border border-gray-600 opacity-50" />
         </div>
-        
-        {/* Pause/Play indicator (optional visual feedback) */}
-        {!isPlaying && (
-          <div className="absolute -top-1 -right-1 w-4 h-4 bg-[#808000] rounded-full flex items-center justify-center border-2 border-white">
-            <div className="w-1.5 h-1.5 bg-white" style={{ clipPath: 'polygon(0 0, 0 100%, 100% 50%)' }} />
+
+        {/* CD Button */}
+        <button
+          onClick={togglePlay}
+          className="relative w-12 h-12 rounded-full flex items-center justify-center shadow-xl transition-transform duration-300 hover:scale-110"
+          style={{
+            background: "#000000",
+            border: "2px solid #D2B450",
+            boxShadow: "0 4px 20px rgba(210,180,80,0.2)"
+          }}
+          aria-label="Toggle Music"
+        >
+          {/* CD */}
+          <div
+            className={`relative w-8 h-8 rounded-full flex items-center justify-center ${
+              isPlaying ? "animate-[spin_4s_linear_infinite]" : ""
+            }`}
+            style={{
+              background:
+                "radial-gradient(circle, #D2B450 0 12%, #111 13% 35%, #292929 36% 38%, #111 39% 55%, #292929 56% 58%, #111 59%)",
+              border: "1px solid rgba(210,180,80,0.35)"
+            }}
+          >
+            {/* Center hole */}
+            <div
+              className="w-2 h-2 rounded-full"
+              style={{
+                background: "#000000",
+                border: "1px solid #D2B450"
+              }}
+            />
           </div>
-        )}
-      </button>
+
+          {/* Pause indicator */}
+          {!isPlaying && (
+            <div
+              className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center"
+              style={{
+                background: "#654321",
+                border: "1px solid #D2B450"
+              }}
+            >
+              <div
+                style={{
+                  width: 0,
+                  height: 0,
+                  borderTop: "3px solid transparent",
+                  borderBottom: "3px solid transparent",
+                  borderLeft: "5px solid #F4EFE6",
+                  marginLeft: "1px"
+                }}
+              />
+            </div>
+          )}
+        </button>
+
+      </div>
     </>
-  )
+  );
 }
 
-export default function App() {
+function WeddingInvitationApp() {
   const [opened, setOpened] = useState(false);
 
   return (
@@ -1669,7 +1786,10 @@ export default function App() {
   */}
   <GuestGuideSection />
 
-  {/* 7. Galeri */}
+  {/* 7. Wedding Camera */}
+  <WeddingCameraSection />
+
+  {/* 8. Galeri */}
   {weddingData.fitur.tampilkanGaleri && (
     <GallerySection />
   )}
@@ -1697,4 +1817,15 @@ export default function App() {
 
     </div>
   );
+}
+
+// Route wrapper: / = invitation, /camera = disposable camera
+export default function App() {
+  const path = window.location.pathname.replace(/\/+$/, '') || '/';
+
+  if (path === '/camera') {
+    return <WeddingCamera />;
+  }
+
+  return <WeddingInvitationApp />;
 }
