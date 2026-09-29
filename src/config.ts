@@ -78,13 +78,13 @@ export const weddingData = {
   rekening: [
     { 
       bank: "Bank BCA", 
-      noRekening: "1234567890", 
-      atasNama: "Aliansyah Pradana Putra" 
+      noRekening: "8175205094", 
+      atasNama: "Riri Delany" 
     },
     { 
-      bank: "Bank BRI", 
-      noRekening: "0987654321", 
-      atasNama: "Lestari Putri Ningsih" 
+      bank: "Bank BCA", 
+      noRekening: "0154145903", 
+      atasNama: "Muhammad Majid Fadhillah" 
     },
   ],
 
@@ -92,7 +92,7 @@ export const weddingData = {
   fitur: {
     tampilkanBismillah: true,
     tampilkanMempelai: true,
-    tampilkanAcara: true,
+    tampilkanAcara: true, 
     tampilkanGaleri: true,
     tampilkanCeritaCinta: true,
     tampilkanRSVP: true,

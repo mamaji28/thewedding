@@ -350,10 +350,10 @@ function BismillahSection() {
           بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
         </p>
         <p className="font-body text-sm leading-relaxed" style={{ color: '#D8CEC0' }}>
-          "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan hidup dari jenismu sendiri, supaya kamu cenderung dan merasa tentram kepadanya, dan dijadikan-Nya diantaramu rasa kasih dan sayang."
+          "Dan segala sesuatu Kami ciptakan berpasang-pasangan agar kamu mengingat (kebesaran Allah)."
         </p>
         <p className="font-accent text-xs tracking-widest uppercase mt-4" style={{ color: '#D2B450' }}>
-          QS. Ar-Rum: 21
+          QS. Az-Zariyat: 49
         </p>
       </Reveal>
     </section>
@@ -613,87 +613,113 @@ function ImportantNoteSection() {
         background: 'linear-gradient(180deg, #000000 0%, #120E0B 100%)'
       }}
     >
-      <div className="max-w-xl mx-auto">
-
-        <Reveal>
+      <div
+  className="rounded-3xl px-6 py-8 md:px-10 md:py-10 text-center"
+  style={{
+    background:
+      'linear-gradient(145deg, rgba(101,67,33,0.32), rgba(0,0,0,0.65))',
+    border: '1px solid rgba(210,180,80,0.28)',
+    boxShadow: '0 15px 50px rgba(0,0,0,0.25)'
+  }}
+> <Reveal>
           <div className="text-center mb-10">
             <p
               className="font-accent text-xs tracking-[0.3em] uppercase mb-2"
               style={{ color: '#D2B450' }}
             >
-              Kindly Note
+              
             </p>
 
             <h2
               className="font-display text-3xl md:text-4xl italic"
               style={{ color: '#F4EFE6' }}
             >
-              A Little Note
+              Kindly Note
             </h2>
 
             <Ornament color="#D2B450" />
           </div>
         </Reveal>
 
-        <Reveal delay={100}>
-          <div
-            className="rounded-3xl px-6 py-8 md:px-10 md:py-10 text-center"
-            style={{
-              background:
-                'linear-gradient(145deg, rgba(101,67,33,0.32), rgba(0,0,0,0.65))',
-              border: '1px solid rgba(210,180,80,0.28)',
-              boxShadow: '0 15px 50px rgba(0,0,0,0.25)'
-            }}
-          >
-            <div className="mb-6 flex justify-center">
-              <div
-                className="w-12 h-12 rounded-full flex items-center justify-center"
-                style={{
-                  border: '1px solid rgba(210,180,80,0.5)',
-                  background: 'rgba(210,180,80,0.08)'
-                }}
-              >
-                <span
-                  className="font-display italic text-xl"
-                  style={{ color: '#D2B450' }}
-                >
-                  i
-                </span>
-              </div>
-            </div>
+  {/* Icon */}
+  <div className="mb-6 flex justify-center">
+    <div
+      className="w-12 h-12 rounded-full flex items-center justify-center"
+      style={{
+        border: '1px solid rgba(210,180,80,0.5)',
+        background: 'rgba(210,180,80,0.08)'
+      }}
+    >
+      <span
+        className="font-display italic text-xl"
+        style={{ color: '#D2B450' }}
+      >
+        i
+      </span>
+    </div>
+  </div>
 
-            <p
-              className="font-body text-sm md:text-base leading-7 mb-5"
-              style={{ color: '#D8CEC0' }}
-            >
-              Dengan segala hormat, mengingat keterbatasan kapasitas venue,
-              kami memohon pengertian Bapak/Ibu/Saudara/i untuk menyesuaikan
-              kehadiran dengan undangan yang diterima.
-            </p>
+  {/* Venue */}
+  <p
+    className="font-body text-sm md:text-base leading-7"
+    style={{ color: '#D8CEC0' }}
+  >
+    Dengan segala hormat, mengingat keterbatasan kapasitas venue,
+    kami memohon pengertian Bapak/Ibu/Saudara/i untuk menyesuaikan
+    kehadiran dengan undangan yang diterima.
+  </p>
 
-            <div
-              className="w-16 h-px mx-auto my-5"
-              style={{ background: 'rgba(210,180,80,0.35)' }}
-            />
+  <div
+    className="w-16 h-px mx-auto my-5"
+    style={{ background: 'rgba(210,180,80,0.35)' }}
+  />
 
-            <p
-              className="font-body text-sm md:text-base leading-7"
-              style={{ color: '#D8CEC0' }}
-            >
-              Perlu kami informasikan bahwa tiket masuk menuju area venue
-              ditanggung secara pribadi oleh masing-masing tamu.
-            </p>
+  {/* Standing Reception */}
+  <p
+    className="font-accent text-[11px] tracking-[0.25em] uppercase mb-2"
+    style={{ color: '#D2B450' }}
+  >
+    Standing Reception
+  </p>
 
-            <p
-              className="font-display italic text-base mt-7"
-              style={{ color: '#D2B450' }}
-            >
-              Terima kasih atas pengertian dan perhatiannya.
-            </p>
-          </div>
-        </Reveal>
+  <p
+    className="font-body text-sm md:text-base leading-7"
+    style={{ color: '#D8CEC0' }}
+  >
+    Tasyakuran pernikahan akan berlangsung dengan konsep
+    <span style={{ color: '#F4EFE6' }}> standing reception</span>.
+    Tempat duduk tersedia dalam jumlah terbatas dan diprioritaskan
+    bagi lansia, ibu hamil, serta tamu yang membutuhkan.
+  </p>
 
-      </div>
+  <div
+    className="w-16 h-px mx-auto my-5"
+    style={{ background: 'rgba(210,180,80,0.35)' }}
+  />
+
+  {/* Entrance Ticket */}
+  <p
+    className="font-accent text-[11px] tracking-[0.25em] uppercase mb-2"
+    style={{ color: '#D2B450' }}
+  >
+    Entrance Ticket
+  </p>
+
+  <p
+    className="font-body text-sm md:text-base leading-7"
+    style={{ color: '#D8CEC0' }}
+  >
+    Tiket masuk menuju area venue ditanggung secara pribadi
+    oleh masing-masing tamu.
+  </p>
+
+  <p
+    className="font-display italic text-base mt-7"
+    style={{ color: '#D2B450' }}
+  >
+    Terima kasih atas pengertian dan perhatiannya.
+  </p>
+</div>
     </section>
   );
 }
@@ -1220,13 +1246,31 @@ function WeddingCameraSection() {
 // 7. Gallery
 function GallerySection() {
   const photos = [
-    { aspect: 'square' },
-    { aspect: 'tall' },
-    { aspect: 'square' },
-    { aspect: 'tall' },
-    { aspect: 'wide' },
-    { aspect: 'square' },
-  ]
+  { 
+    src: "/asset/images/gambar1.jpg",
+    aspect: "square"
+  },
+  { 
+    src: "/asset/images/foto2.jpg",
+    aspect: "tall"
+  },
+  { 
+    src: "/asset/images/foto3.jpg",
+    aspect: "square"
+  },
+  { 
+    src: "/asset/images/foto4.jpg",
+    aspect: "tall"
+  },
+  { 
+    src: "/asset/images/foto5.jpg",
+    aspect: "wide"
+  },
+  { 
+    src: "/asset/images/foto6.jpg",
+    aspect: "square"
+  }
+]
 
   return (
     <section className="py-20 px-6" style={{ background: 'linear-gradient(180deg, #000000 0%, #1a110b 48%, #000000 100%)' }}>
@@ -1560,6 +1604,9 @@ function ClosingSection() {
       <Reveal delay={200} className="mt-16">
         <p className="font-accent text-xs" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>
           Made with ♥ — The Wedding of {weddingData.pria.namaPanggilan} & {weddingData.wanita.namaPanggilan}
+        </p>
+        <p className="font-accent text-xs" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>
+          By -Just Invitation-
         </p>
         <p className="font-accent text-xs" style={{ color: 'rgba(255, 255, 255, 0.48)' }}>
           Thanks to Muhammad Ilham Pratama for the support
