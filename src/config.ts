@@ -37,7 +37,7 @@ export const weddingData = {
     teksTanggal: "Jumat, 16 Oktober 2026",
     
     akad: {
-      waktu: "15.00 WIB – Selesai",
+      waktu: "14.00 WIB – Selesai",
       tempat: "Bale Piniji, Taman Balekambang, Surakarta ",
       alamat: "Jl. Depok, Manahan, Kec. Banjarsari, Kota Surakarta, Jawa Tengah",
       linkMap: "https://maps.app.goo.gl/YScqeTPf95njgCFs5", // Ganti dengan link Google Maps sungguhan
