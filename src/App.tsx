@@ -1213,35 +1213,35 @@ function HeroSection() {
   );
 }
 
-// // 6. Wedding Camera
-// function WeddingCameraSection() {
-//   return (
-//     <section
-//       className="py-20 px-6 text-center relative overflow-hidden"
-//       style={{ background: 'linear-gradient(180deg, #000000 0%, #120c08 100%)' }}
-//     >
-//       <div className="max-w-lg mx-auto">
-//         <Reveal>
-//           <SectionHeading sub="From Your Point of View" title="Wedding Camera" light />
-//           <p
-//             className="font-body text-sm leading-relaxed mb-7"
-//             style={{ color: '#D8CEC0' }}
-//           >
-//             Abadikan momen favoritmu di hari pernikahan kami. Setiap perangkat
-//             mendapat hingga 18 foto dan hasilnya akan masuk ke album bersama.
-//           </p>
-//           <WeddingCameraButton />
-//           <p
-//             className="font-accent text-[10px] tracking-widest uppercase mt-4"
-//             style={{ color: 'rgba(244,239,230,0.45)' }}
-//           >
-//             No app needed · Camera access required
-//           </p>
-//         </Reveal>
-//       </div>
-//     </section>
-//   )
-// }
+// 6. Wedding Camera
+function WeddingCameraSection() {
+  return (
+    <section
+      className="py-20 px-6 text-center relative overflow-hidden"
+      style={{ background: 'linear-gradient(180deg, #000000 0%, #120c08 100%)' }}
+    >
+      <div className="max-w-lg mx-auto">
+        <Reveal>
+          <SectionHeading sub="From Your Point of View" title="Wedding Camera" light />
+          <p
+            className="font-body text-sm leading-relaxed mb-7"
+            style={{ color: '#D8CEC0' }}
+          >
+            Abadikan momen favoritmu di hari pernikahan kami. Setiap perangkat
+            mendapat hingga 18 foto dan hasilnya akan masuk ke album bersama.
+          </p>
+          <WeddingCameraButton />
+          <p
+            className="font-accent text-[10px] tracking-widest uppercase mt-4"
+            style={{ color: 'rgba(244,239,230,0.45)' }}
+          >
+            No app needed · Camera access required
+          </p>
+        </Reveal>
+      </div>
+    </section>
+  )
+}
 
 // 7. Gallery
 function GallerySection() {
@@ -1834,7 +1834,7 @@ function WeddingInvitationApp() {
   <GuestGuideSection />
 
   {/* 7. Wedding Camera */}
-  <WeddingCameraSection />
+  {/* <WeddingCameraSection /> */}
 
   {/* 8. Galeri */}
   {weddingData.fitur.tampilkanGaleri && (
