@@ -24,7 +24,7 @@ export const weddingData = {
 
     coverImage: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1080", // Foto layar penuh di Tirai awal
     heroImage: "depan.jpg", // Foto di dalam bingkai halaman utama
-    fotoPria: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=300", // Foto Mempelai Pria (Rasio 1:1 / Persegi)
+    fotoPria: "/gallery/cowo.jpg", // Foto Mempelai Pria (Rasio 1:1 / Persegi)
     fotoWanita: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300" // Foto Mempelai Wanita (Rasio 1:1 / Persegi)
   },
 

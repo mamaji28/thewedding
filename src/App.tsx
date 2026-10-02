@@ -777,7 +777,7 @@ function GuestGuideSection() {
     'Hindari pakaian berwarna Broken White, Mahogany, dan Golden Olive',
     'Mohon tidak membawa tamu tambahan di luar undangan',
     'Mohon tidak menghalangi prosesi maupun fotografer',
-    'Mohon tidak membawa anabul, hehe'
+    'Mohon tidak membuang sampah sembarangan'
   ];
 
   return (
@@ -1246,61 +1246,50 @@ function WeddingCameraSection() {
 // 7. Gallery
 function GallerySection() {
   const photos = [
-  { 
-    src: "/asset/images/gambar1.jpg",
-    aspect: "square"
-  },
-  { 
-    src: "/asset/images/foto2.jpg",
-    aspect: "tall"
-  },
-  { 
-    src: "/asset/images/foto3.jpg",
-    aspect: "square"
-  },
-  { 
-    src: "/asset/images/foto4.jpg",
-    aspect: "tall"
-  },
-  { 
-    src: "/asset/images/foto5.jpg",
-    aspect: "wide"
-  },
-  { 
-    src: "/asset/images/foto6.jpg",
-    aspect: "square"
-  }
-]
+  "/gallery/foto1.jpg",
+  "/gallery/foto2.jpg",
+  "/gallery/foto3.jpg",
+  "/gallery/foto4.jpg",
+  "/gallery/foto5.jpg",
+  "/gallery/foto6.jpg",
+];
 
   return (
-    <section className="py-20 px-6" style={{ background: 'linear-gradient(180deg, #000000 0%, #1a110b 48%, #000000 100%)' }}>
-      <div className="max-w-2xl mx-auto">
+    <section
+      className="py-20 px-6"
+      style={{
+        background:
+          "linear-gradient(180deg, #000000 0%, #120c08 48%, #000000 100%)",
+      }}
+    >
+      <div className="max-w-xl mx-auto">
         <Reveal>
-          <SectionHeading sub="Momen Kami" title="Galeri Foto" />
-        </Reveal>
-        <Reveal delay={100}>
-          <div className="grid grid-cols-3 gap-2">
-            {photos.map((p, i) => (
-              <PhotoBox
-                key={i}
-                className={`rounded-xl overflow-hidden ${
-                  p.aspect === 'tall' ? 'row-span-2' : p.aspect === 'wide' ? 'col-span-2' : ''
-                }`}
-                style={{
-                  aspectRatio: p.aspect === 'tall' ? undefined : '1',
-                  height: p.aspect === 'tall' ? '100%' : undefined,
-                  minHeight: p.aspect === 'tall' ? 200 : 100,
-                }}
-                label="Foto"
-              />
+          <SectionHeading
+            sub="MOMEN KAMI"
+            title="Galeri Foto"
+            light
+          />
+
+          <div className="mt-10 flex flex-col items-center gap-8">
+            {photos.map((src, index) => (
+              <div
+                key={index}
+                className="w-full overflow-hidden rounded-xl"
+              >
+                <img
+                  src={src}
+                  alt={`Momen ${index + 1}`}
+                  className="block w-full h-auto object-contain"
+                  loading="lazy"
+                />
+              </div>
             ))}
           </div>
         </Reveal>
       </div>
     </section>
-  )
+  );
 }
-
 
 
 
