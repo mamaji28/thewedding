@@ -1250,8 +1250,7 @@ function GallerySection() {
   "/gallery/foto2.png",
   "/gallery/foto3.jpg",
   "/gallery/foto4.jpg",
-  "/gallery/foto5.jpg",
-  "/gallery/foto6.jpg",
+  
 ];
 
   return (
