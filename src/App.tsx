@@ -1247,7 +1247,7 @@ function WeddingCameraSection() {
 function GallerySection() {
   const photos = [
   "/gallery/foto1.jpg",
-  "/gallery/foto2.jpg",
+  "/gallery/foto2.png",
   "/gallery/foto3.jpg",
   "/gallery/foto4.jpg",
   "/gallery/foto5.jpg",
