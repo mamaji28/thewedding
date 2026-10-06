@@ -1228,7 +1228,7 @@ function WeddingCameraSection() {
             style={{ color: '#D8CEC0' }}
           >
             Abadikan momen favoritmu di hari pernikahan kami. Setiap perangkat
-            mendapat hingga 18 foto dan hasilnya akan masuk ke album bersama.
+            mendapat hingga 10 foto dan hasilnya akan masuk ke album bersama.
           </p>
           <WeddingCameraButton />
           <p
@@ -1247,6 +1247,7 @@ function WeddingCameraSection() {
 function GallerySection() {
   const photos = [
   "/gallery/foto1.jpg",
+  "/gallery/foto7.jpg",
   "/gallery/foto2.png",
   "/gallery/foto3.jpg",
   "/gallery/foto4.jpg",
